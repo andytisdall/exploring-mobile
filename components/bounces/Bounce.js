@@ -16,15 +16,12 @@ import {
   queueSongs,
 } from '../../actions';
 import PlayButton from '../../assets/images/play.svg';
-// import TrackPlayer from 'react-native-track-player';
 
 // const track = {
 //   url: 'https://exploring-the-space.com/api/audio/6296e3341c63594359293ce4.mp3',
 //   title: 'Q-Anon',
 //   artist: 'The Paranoid Orchestra',
 // };
-
-// await TrackPlayer.add([track]);
 
 const Bounce = ({
   bounces,
@@ -190,7 +187,7 @@ const Bounce = ({
 
   const showPlayButton = () => {
     return (
-      <Pressable onPress={() => {}}>
+      <Pressable onPress={queueSongs(song)}>
         <PlayButton style={styles.playButton} />
       </Pressable>
     );

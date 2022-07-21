@@ -1,3 +1,5 @@
+import TrackPlayer from 'react-native-track-player';
+
 import {
   PLAY_AUDIO,
   PAUSE_AUDIO,
@@ -15,7 +17,7 @@ export const pauseAudio = () => {
   return { type: PAUSE_AUDIO };
 };
 
-export const queueSongs = (song) => (dispatch) => {
+export const queueSongs = (song) => async (dispatch, getState) => {
   const songObject = {
     title: song.title,
     version: song.version.name,
@@ -23,6 +25,16 @@ export const queueSongs = (song) => (dispatch) => {
     duration: song.bounce.duration,
     audio: song.bounce.id,
   };
+
+  await TrackPlayer.add([
+    {
+      title: song.title,
+      artist: getState().bands.currentBand.bandName,
+      url: `https://exploring-the-space.com/api/audio/${song.bounce.id}`,
+    },
+  ]);
+
+  TrackPlayer.play();
 
   dispatch({
     type: QUEUE_SONGS,

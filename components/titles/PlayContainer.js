@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
   },
   playContainerTime: {
     fontSize: 12,
+    width: 33,
   },
   playContainerDisplay: {
     marginLeft: 10,
@@ -73,7 +74,6 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   playButton: {
-    marginLeft: 10,
     height: 30,
     width: 30,
   },

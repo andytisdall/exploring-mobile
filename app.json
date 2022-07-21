@@ -23,13 +23,15 @@
         "UIBackgroundModes": [
           "audio"
         ]
-      }
+      },
+      "bundleIdentifier": "com.andrewtisdall.exploringmobile"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.andrewtisdall.exploringmobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"

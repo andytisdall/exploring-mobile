@@ -5,7 +5,7 @@ import Slider from '@react-native-community/slider';
 
 import { fetchBand, signOut, changeVolume } from '../../actions';
 import Main from './Main';
-// import AudioDisplay from '../layout/AudioDisplay';
+import Audio from '../audio/Audio';
 import requireAuth from '../reusable/requireAuth';
 import baseStyle from '../../style/baseStyle';
 // import { spinner } from '../reusable/Spinner';
@@ -125,8 +125,8 @@ const Header = ({
   return (
     <View>
       <View style={[styles.header, baseStyle.background]}>
-        {/* <Error />
-        <AudioDisplay /> */}
+        {/* <Error /> */}
+        <Audio />
         {showContent()}
       </View>
 
@@ -145,7 +145,7 @@ const mapStateToProps = (state) => {
 
 const styles = StyleSheet.create({
   header: {
-    position: 'fixed',
+    position: 'static',
     flexDirection: 'column',
     alignItems: 'center',
     paddingTop: 16,
