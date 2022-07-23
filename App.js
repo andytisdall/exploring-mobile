@@ -1,22 +1,18 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { View, StyleSheet, Text, SafeAreaView } from 'react-native';
-import TrackPlayer from 'react-native-track-player';
 
 import Root from './root';
 import Header from './components/layout/Header';
+import setupTrackPlayer from './track-player/setup';
 
 const Stack = createNativeStackNavigator();
 
 const initialState = {};
 
-export default function App() {
-  useEffect(async () => {
-    TrackPlayer.registerPlaybackService(() => require('./service'));
-    await TrackPlayer.setupPlayer();
-  });
+setupTrackPlayer();
 
+export default function App() {
   return (
     <Root initialState={initialState}>
       <NavigationContainer>

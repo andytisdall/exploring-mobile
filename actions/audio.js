@@ -7,238 +7,182 @@ import {
   NEXT_SONG,
   INITIALIZE_AUDIO,
   CHANGE_VOLUME,
+  SYNC_AUDIO,
 } from './types';
 
+const convertForPlayer = (songArray, state) => {
+  const artist = state.bands.currentBand.name;
+  return songArray.map((song) => {
+    return {
+      ...song,
+      url: `https://exploring-the-space.com/api/audio/${song.audio}`,
+      artist,
+      id: song.audio,
+    };
+  });
+};
+
 export const playAudio = () => {
+  TrackPlayer.play();
   return { type: PLAY_AUDIO };
 };
 
 export const pauseAudio = () => {
+  TrackPlayer.pause();
   return { type: PAUSE_AUDIO };
 };
 
-export const queueSongs = (song) => async (dispatch, getState) => {
-  const songObject = {
-    title: song.title,
-    version: song.version.name,
-    date: song.bounce.date,
-    duration: song.bounce.duration,
-    audio: song.bounce.id,
-  };
+export const queueSongs = (id, parent) => async (dispatch, getState) => {
+  const state = getState();
+  const newSong = { id, parent };
 
-  await TrackPlayer.add([
-    {
-      title: song.title,
-      artist: getState().bands.currentBand.bandName,
-      url: `https://exploring-the-space.com/api/audio/${song.bounce.id}`,
-    },
-  ]);
+  const queue = await updateQueue('new', state, newSong);
+  const convertedQueue = convertForPlayer(queue, state);
 
-  TrackPlayer.play();
+  TrackPlayer.removeUpcomingTracks();
+  await TrackPlayer.remove(0);
+  await TrackPlayer.add(convertedQueue);
+  const currentSong = await TrackPlayer.getCurrentTrack();
+  if (currentSong) {
+    await TrackPlayer.skipToNext();
+  }
+
+  dispatch(playAudio());
 
   dispatch({
     type: QUEUE_SONGS,
-    payload: { song: songObject, parent: song.tier },
+    payload: { song: convertedQueue[0] },
   });
 };
 
-export const queuePlaylistSongs = (song) => (dispatch, getState) => {
-  // const version = getState().versions[song.version];
-  // const bounce = getState().bounces[song.bounce];
-  // const title = getState().titles[song.title];
+const orderTitles = (tier, state) => {
+  const titleList = tier.trackList
+    .map((id) => state.titles[id])
+    .filter((title) => title && title.selectedBounce);
 
-  const songObject = {
-    title: song.title,
-    version: song.version.name,
-    date: song.bounce.date,
-    duration: song.bounce.duration,
-    audio: song.bounce.id,
-    position: song.position,
-  };
+  if (tier.orderBy === 'date' || !tier.orderyBy) {
+    return titleList.sort((a, b) => {
+      if (new Date(a.selectedBounce.date) > new Date(b.selectedBounce.date)) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+  }
 
-  dispatch({
-    type: QUEUE_SONGS,
-    payload: { song: songObject, parent: song.playlist },
-  });
+  if (tier.orderBy === 'name') {
+    return titleList.sort((a, b) => {
+      return a.title < b.title ? -1 : 1;
+    });
+  }
 };
 
-export const nextSong = () => (dispatch, getState) => {
-  const { parent, currentSong } = getState().audio;
+const updateQueue = async (action, state, currentSong = null) => {
+  let increment;
+
+  if (action === 'next') {
+    increment = 1;
+  } else if (action === 'prev') {
+    increment = -1;
+  } else {
+    increment = 0;
+  }
+
+  if (!currentSong) {
+    currentSong = state.audio.currentSong;
+  }
+  const { parent } = currentSong;
+
+  // parent is tier
   if (parent.trackList) {
-    let allTitles;
-
-    if (parent.orderBy === 'date' || !parent.orderyBy) {
-      allTitles = parent.trackList
-        .map((id) => getState().titles[id])
-        .sort((a, b) => {
-          if (a.selectedBounce && b.selectedBounce) {
-            if (
-              new Date(a.selectedBounce.date) > new Date(b.selectedBounce.date)
-            ) {
-              return -1;
-            } else {
-              return 1;
-            }
-          } else if (a.selectedBounce) {
-            return -1;
-          } else if (b.selectedBounce) {
-            return 1;
-          }
-          return -1;
-        });
-    }
-
-    if (parent.orderBy === 'name') {
-      allTitles = parent.trackList
-        .map((id) => getState().titles[id])
-        .sort((a, b) => {
-          return a.title < b.title ? -1 : 1;
-        });
-    }
+    const allTitles = orderTitles(parent, state);
 
     const currentIndex = allTitles.findIndex(
-      (title) => title.id === currentSong.title.id
+      (title) =>
+        title.title === currentSong.title || title.id === currentSong.id
     );
-    const song = allTitles[currentIndex + 1];
 
-    if (song && song.selectedVersion && song.selectedBounce) {
-      const version = getState().versions[song.selectedVersion.id];
-      const bounce = getState().bounces[song.selectedBounce.id];
+    const queue = allTitles.slice(currentIndex + increment);
 
-      const songObject = {
-        title: song,
-        version: version.name,
-        date: bounce.date,
-        duration: bounce.duration,
-        audio: bounce.id,
-      };
-
-      dispatch({ type: NEXT_SONG, payload: songObject });
-    } else {
-      dispatch({ type: INITIALIZE_AUDIO });
-    }
-  }
-  if (parent.songs) {
-    const allSongs = parent.songs
-      .map((id) => getState().playlistSongs[id])
-      .sort((a, b) => (a.position < b.position ? -1 : 1));
-
-    let song;
-    let index = currentSong.position;
-
-    while (index < allSongs.length) {
-      if (allSongs[index].bounce !== null) {
-        song = allSongs[index];
-        break;
-      }
-      index++;
-    }
-
-    if (!song) {
-      return dispatch({ type: INITIALIZE_AUDIO });
-    }
-
-    const version = getState().versions[song.version];
-    const bounce = getState().bounces[song.bounce];
-    const title = getState().titles[song.title];
-
-    const songObject = {
-      title: title,
-      version: version.name,
-      date: bounce.date,
-      duration: bounce.duration,
-      audio: bounce.id,
-      position: song.position,
-    };
-    dispatch({ type: NEXT_SONG, payload: songObject });
-  }
-};
-
-export const prevSong = () => (dispatch, getState) => {
-  const state = getState();
-  const { parent, currentSong } = state.audio;
-  if (parent.trackList) {
-    let allTitles;
-    if (parent.orderBy === 'date') {
-      allTitles = parent.trackList
-        .map((id) => state.titles[id])
-        .sort((a, b) => {
-          if (a.selectedBounce && b.selectedBounce) {
-            if (
-              new Date(a.selectedBounce.date) > new Date(b.selectedBounce.date)
-            ) {
-              return -1;
-            } else {
-              return 1;
-            }
-          } else if (a.selectedBounce) {
-            return -1;
-          } else if (b.selectedBounce) {
-            return 1;
-          }
-          return -1;
-        });
-    }
-
-    if (parent.orderBy === 'name') {
-      allTitles = parent.trackList
-        .map((id) => state.titles[id])
-        .sort((a, b) => {
-          return a.title < b.title ? -1 : 1;
-        });
-    }
-
-    const song = allTitles[allTitles.indexOf(currentSong.title) - 1];
-
-    if (song && song.selectedVersion && song.selectedBounce) {
+    return queue.map((song) => {
       const version = state.versions[song.selectedVersion.id];
       const bounce = state.bounces[song.selectedBounce.id];
 
-      const songObject = {
-        title: song,
+      return {
+        title: song.title,
         version: version.name,
         date: bounce.date,
         duration: bounce.duration,
         audio: bounce.id,
+        parent,
       };
-
-      dispatch({ type: NEXT_SONG, payload: songObject });
-    }
+    });
   }
 
+  // parent is playlist
   if (parent.songs) {
     const allSongs = parent.songs
       .map((id) => state.playlistSongs[id])
+      .filter((song) => song.bounce)
       .sort((a, b) => (a.position < b.position ? -1 : 1));
 
-    let song;
-    let index = currentSong.position - 2;
+    const queue = allSongs.slice(currentSong.position + (increment - 1));
 
-    while (index < allSongs.length) {
-      if (allSongs[index].bounce !== null) {
-        song = allSongs[index];
-        break;
-      }
-      index = index - 1;
-    }
+    return queue.map((song) => {
+      const version = state.versions[song.version];
+      const bounce = state.bounces[song.bounce];
+      const title = state.titles[song.title];
 
-    if (!song) {
-      return dispatch({ type: INITIALIZE_AUDIO });
-    }
+      return {
+        title: title.title,
+        version: version.name,
+        date: bounce.date,
+        duration: bounce.duration,
+        audio: bounce.id,
+        position: song.position,
+        parent,
+      };
+    });
+  }
+};
 
-    const version = state.versions[song.version];
-    const bounce = state.bounces[song.bounce];
-    const title = state.titles[song.title];
+export const nextSong = () => async (dispatch, getState) => {
+  const state = getState();
+  const newQueue = await updateQueue('next', state);
 
-    const songObject = {
-      title: title,
-      version: version.name,
-      date: bounce.date,
-      duration: bounce.duration,
-      audio: bounce.id,
-      position: song.position,
-    };
-    dispatch({ type: NEXT_SONG, payload: songObject });
+  if (!newQueue.length) {
+    return dispatch(initializeAudio());
+  }
+
+  // console.log(newQueue.map((t) => t.title));
+
+  const convertedQueue = convertForPlayer(newQueue, state);
+
+  TrackPlayer.removeUpcomingTracks();
+  await TrackPlayer.add(convertedQueue);
+
+  TrackPlayer.skipToNext();
+
+  if (convertedQueue[0]) {
+    dispatch({ type: NEXT_SONG, payload: convertedQueue[0] });
+  } else {
+    dispatch(initializeAudio());
+  }
+};
+
+export const prevSong = () => async (dispatch, getState) => {
+  const state = getState();
+  const newQueue = await updateQueue('prev', state);
+
+  TrackPlayer.removeUpcomingTracks();
+  await TrackPlayer.add(convertForPlayer(newQueue, state));
+
+  TrackPlayer.skipToNext();
+
+  if (newQueue[0]) {
+    dispatch({ type: NEXT_SONG, payload: newQueue[0] });
+  } else {
+    dispatch(initializeAudio());
   }
 };
 
@@ -246,6 +190,20 @@ export const changeVolume = (value) => {
   return { type: CHANGE_VOLUME, payload: value };
 };
 
-export const initializeAudio = () => {
-  return { type: INITIALIZE_AUDIO };
+export const initializeAudio = () => async (dispatch) => {
+  TrackPlayer.removeUpcomingTracks();
+  TrackPlayer.remove([0]);
+  TrackPlayer.pause();
+  dispatch({ type: INITIALIZE_AUDIO });
+};
+
+export const syncAudioState = () => async (dispatch) => {
+  let currentTrack;
+  const queue = await TrackPlayer.getQueue();
+  const i = await TrackPlayer.getCurrentTrack();
+  if (i) {
+    currentTrack = queue[i];
+  }
+  const playerState = await TrackPlayer.getState();
+  dispatch({ type: SYNC_AUDIO, payload: { currentTrack, playerState } });
 };
