@@ -25,7 +25,7 @@ import PrevButton from '../../assets/images/prev.svg';
 import NextButton from '../../assets/images/next.svg';
 import baseStyle from '../../style/baseStyle';
 
-const Audio = (props) => {
+const Audio = props => {
   const { position, duration } = useProgress();
 
   const events = [Event.PlaybackState, Event.PlaybackError];
@@ -40,17 +40,14 @@ const Audio = (props) => {
 
   useEffect(() => {
     props.syncAudioState();
-    // if (!props.song) {
-    //   props.pauseAudio();
-    // }
   }, [props.song]);
 
   // useEffect(() => {
   //   syncronizeCurrentSong();
   // }, [position]);
 
-  useTrackPlayerEvents(events, async (event) => {
-    // syncronizeCurrentSong();
+  useTrackPlayerEvents(events, async event => {
+    props.syncAudioState();
 
     if (event.type === Event.PlaybackError) {
       throwError('audio player had an error');
@@ -58,17 +55,15 @@ const Audio = (props) => {
     }
     if (event.type === Event.PlaybackState) {
       if (event.state === State.Playing && !props.isPlaying) {
-        props.syncAudioState();
-      }
-      if ((event.state = State.Paused && props.isPlaying)) {
-        props.syncAudioState();
+        // props.syncAudioState();
       }
     }
     if (event.type === Event.PlaybackTrackChanged) {
+      // props.syncAudioState();
     }
   });
 
-  const formatTime = (time) => {
+  const formatTime = time => {
     let minutes =
       time < 600 ? `0${Math.floor(time / 60)}` : Math.floor(time / 60);
     let seconds =
@@ -76,7 +71,7 @@ const Audio = (props) => {
     return `${minutes}:${seconds}`;
   };
 
-  const displayDate = (date) => {
+  const displayDate = date => {
     return moment.utc(date).format('MM/DD/yy');
   };
 
@@ -92,7 +87,7 @@ const Audio = (props) => {
     props.nextSong();
   };
 
-  const onSliderChange = (value) => {
+  const onSliderChange = value => {
     TrackPlayer.seekTo(Math.round(value));
   };
 
@@ -229,7 +224,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     song: state.audio.currentSong,
     isPlaying: state.audio.play,

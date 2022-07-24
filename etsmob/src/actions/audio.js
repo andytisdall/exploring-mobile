@@ -41,8 +41,9 @@ export const queueSongs = (id, parent) => async (dispatch, getState) => {
 
   TrackPlayer.removeUpcomingTracks();
   await TrackPlayer.remove(0);
-  await TrackPlayer.add(convertedQueue);
   const prevQueue = await TrackPlayer.getQueue();
+
+  await TrackPlayer.add(convertedQueue);
   if (prevQueue.length) {
     await TrackPlayer.skipToNext();
   }
@@ -51,7 +52,7 @@ export const queueSongs = (id, parent) => async (dispatch, getState) => {
 
   dispatch({
     type: QUEUE_SONGS,
-    payload: { song: convertedQueue[0] },
+    payload: { song: convertedQueue[0], parent },
   });
 };
 
@@ -200,9 +201,10 @@ export const syncAudioState = () => async dispatch => {
   let currentTrack;
   const queue = await TrackPlayer.getQueue();
   const i = await TrackPlayer.getCurrentTrack();
-  if (i) {
+  if (i !== null) {
     currentTrack = queue[i];
   }
+  // console.log(currentTrack);
   const playerState = await TrackPlayer.getState();
   dispatch({ type: SYNC_AUDIO, payload: { currentTrack, playerState } });
 };

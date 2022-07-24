@@ -46,30 +46,36 @@ const Title = ({
   const [showChords, setShowChords] = useState(false);
 
   const chordButtonRef = useRef();
+  // console.log('GG');
+
+  useEffect(
+    () => {
+      // console.log('a');
+      if (title.selectedBounce && title.selectedVersion) {
+        setSong({
+          parent: tier,
+          title: titles[title.id],
+          version: title.selectedVersion,
+          bounce: title.selectedBounce,
+        });
+        getTime({ id: title.id, duration: title.selectedBounce.duration });
+      } else if (song && !title.selectedBounce) {
+        setSong(null);
+        getTime({ id: title.id, duration: 0 });
+      }
+    },
+
+    [
+      // getTime,
+      // tier,
+      // titles,
+      // title,
+      // versions,
+    ],
+  );
 
   useEffect(() => {
-    if (title.selectedBounce && title.selectedVersion) {
-      setSong({
-        parent: tier,
-        title: titles[title.id],
-        version: title.selectedVersion,
-        bounce: title.selectedBounce,
-      });
-      getTime({ id: title.id, duration: title.selectedBounce.duration });
-    } else if (song && !title.selectedBounce) {
-      setSong(null);
-      getTime({ id: title.id, duration: 0 });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getTime, tier, titles, title, versions]);
-
-  useEffect(() => {
-    if (title.selectedBounce?.latest && title.selectedVersion?.current) {
-      findLatest(title.id, title.selectedBounce);
-    }
-  }, [title.selectedBounce, title.id, findLatest, title.selectedVersion]);
-
-  useEffect(() => {
+    // console.log('c');
     if (title.selectedVersion) {
       if (title.selectedVersion.bounces[0]) {
         setBounceList(title.selectedVersion.bounces.map(id => bounces[id]));
@@ -79,15 +85,10 @@ const Title = ({
         selectBounce(null, title.id);
       }
     }
-  }, [
-    bounces,
-    selectBounce,
-    title.selectedBounce,
-    title.selectedVersion,
-    title.id,
-  ]);
+  }, [bounces, selectBounce, title.selectedVersion]);
 
   useEffect(() => {
+    // console.log('d');
     if (bounceList && bounceList[0]) {
       // set the title.selected bounce if the bounce list has been modified and no longer matches the current title.selected bounce
 
@@ -104,7 +105,13 @@ const Title = ({
         // console.log('select bounce');
       }
     }
-  }, [bounceList, findLatest, selectBounce, title.id, title.selectedBounce]);
+  }, [
+    // bounceList,
+    // findLatest,
+    selectBounce,
+    title.id,
+    // title.selectedBounce
+  ]);
 
   const renderPlayContainer = () => {
     if (song) {
@@ -227,13 +234,15 @@ const Title = ({
   const current = audio.currentSong ? audio.currentSong.audio : null;
   const parent = audio.parent ? audio.parent.id : null;
 
-  let currentClass = '';
+  // console.log(current, parent);
+
+  let currentClass = {};
 
   if (current && title.selectedBounce) {
     currentClass =
       parent === tier.id && current === title.selectedBounce.id
-        ? 'current-song'
-        : '';
+        ? styles.current
+        : {};
   }
 
   let arrow = expand ? styles.arrowRotated : {};
@@ -241,7 +250,7 @@ const Title = ({
   return (
     <View style={styles.titleMargin}>
       <Pressable
-        style={[baseStyle.marqee, styles.title]}
+        style={[baseStyle.marqee, styles.title, currentClass]}
         onPress={() => setExpand(!expand)}
       >
         <View style={styles.titleName}>
@@ -281,6 +290,9 @@ const styles = StyleSheet.create({
   versionContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
+  },
+  current: {
+    backgroundColor: 'rgb(255, 240, 108)',
   },
 });
 

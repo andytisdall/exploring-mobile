@@ -54,7 +54,7 @@ const BodyContainer = ({
   useEffect(() => {
     setTierList(
       band.tiers
-        .map((id) => tiers[id])
+        .map(id => tiers[id])
         .sort((a, b) => {
           if (a.position < b.position) {
             return -1;
@@ -63,14 +63,14 @@ const BodyContainer = ({
             return 1;
           }
           return -1;
-        })
+        }),
     );
   }, [tiers, setTierList, band]);
 
   useEffect(() => {
     setPlaylistList(
       band.playlists
-        .map((id) => playlists[id])
+        .map(id => playlists[id])
         .sort((a, b) => {
           if (a.position < b.position) {
             return -1;
@@ -79,17 +79,17 @@ const BodyContainer = ({
             return 1;
           }
           return -1;
-        })
+        }),
     );
   }, [playlists, band]);
 
   const renderTiers = () => {
-    const tiersToRender = tierList.filter((tier) => tier);
+    const tiersToRender = tierList.filter(tier => tier);
     return (
       <FlatList
         data={tiersToRender}
         renderItem={({ item }) => <Tier tier={item} />}
-        keyExtractor={(tier) => tier.id}
+        keyExtractor={tier => tier.id}
       />
     );
   };
@@ -161,7 +161,7 @@ const BodyContainer = ({
       <FlatList
         data={sections}
         renderItem={renderSection}
-        keyExtractor={(section) => section.name}
+        keyExtractor={section => section.name}
         contentContainerStyle={styles.listStyle}
       />
       {/* <div className="playlists">
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     tiers: state.tiers,
     playlists: state.playlists,

@@ -24,8 +24,8 @@ const audioReducer = (state = initialState, action) => {
     case PAUSE_AUDIO:
       return { ...state, play: false };
     case QUEUE_SONGS:
-      const { song } = action.payload;
-      return { ...state, currentSong: song, play: true };
+      const { song, parent } = action.payload;
+      return { ...state, currentSong: song, play: true, parent };
     case NEXT_SONG:
       return { ...state, currentSong: action.payload };
     case DELETE_BOUNCE:
@@ -43,18 +43,21 @@ const audioReducer = (state = initialState, action) => {
       console.log('initialize audio');
       return { ...initialState };
     case SYNC_AUDIO:
-      const newState = { ...state };
-      if (action.payload.playerState === State.Playing) {
-        newState.play = true;
-      }
-      if (action.payload.playerState === State.Paused) {
-        newState.play = false;
-      }
+      const isPlaying = action.payload.playerState === State.Playing;
+      const isPaused = action.payload.playerState === State.Paused;
+      const { currentTrack } = action.payload;
       let currentSong = state.currentSong;
-      if (action.payload.currentTrack) {
-        currentSong = action.payload.currentTrack;
+      const stateIsChanged =
+        (isPlaying && !state.play) ||
+        (isPaused && !state.play) ||
+        !currentTrack ||
+        !currentSong ||
+        currentTrack.id !== currentSong.id;
+      if (stateIsChanged) {
+        return { ...state, currentSong: currentTrack };
+      } else {
+        return state;
       }
-      return { ...newState, currentSong };
     default:
       return state;
   }

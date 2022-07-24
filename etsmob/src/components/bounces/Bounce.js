@@ -64,10 +64,15 @@ const Bounce = ({
 
   useEffect(() => {
     setBounceList(version.bounces.map(id => bounces[id]));
+    // console.log('x');
   }, [bounces, version.bounces]);
 
   useEffect(() => {
-    if (bounceList && bounceList[0] && !selectedBounce) {
+    if (
+      bounceList &&
+      bounceList[0] &&
+      (!selectedBounce || !version.bounces.includes(selectedBounce.id))
+    ) {
       let bounceToSelect = bounceList.find(b => b.latest);
       if (!bounceToSelect) {
         bounceToSelect = bounceList[0];

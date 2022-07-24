@@ -39,15 +39,14 @@ const Tier = ({
   const [expand, setExpand] = useState(false);
   const [titlesToRender, setTitlesToRender] = useState(null);
   const [times, setTimes] = useState({});
-
-  const orderedTitles = useRef({});
+  const [orderedTitles, setOrderedTitles] = useState({});
 
   useEffect(() => {
     fetchTitles(tier.id);
   }, [fetchTitles, setOrder, tier.id]);
 
   useEffect(() => {
-    setTitlesToRender(tier.trackList.map((id) => titles[id]));
+    setTitlesToRender(tier.trackList.map(id => titles[id]));
   }, [titles, tier.trackList]);
 
   // useEffect(() => {
@@ -71,23 +70,30 @@ const Tier = ({
 
   const findLatest = (title, bounce) => {
     // console.log(title.title);
-    orderedTitles.current[title.id] = new Date(bounce.date);
+    setOrderedTitles(state => {
+      return {
+        ...state,
+        [title.id]: new Date(bounce.date),
+      };
+    });
   };
 
   const renderTitles = () => {
-    const titleList = titlesToRender.filter((title) => title);
+    const titleList = titlesToRender.filter(title => title);
 
     if (!tier.orderBy || tier.orderBy === 'date') {
       titleList.sort((a, b) => {
-        if (orderedTitles.current[a.id] && orderedTitles.current[b.id]) {
-          if (orderedTitles.current[a.id] > orderedTitles.current[b.id]) {
+        if (a.selectedBounce && b.selectedBounce) {
+          if (
+            new Date(a.selectedBounce.date) > new Date(b.selectedBounce.date)
+          ) {
             return -1;
           } else {
             return 1;
           }
-        } else if (orderedTitles.current[a.id]) {
+        } else if (a.selectedBounce) {
           return -1;
-        } else if (orderedTitles.current[b.id]) {
+        } else if (b.selectedBounce) {
           return 1;
         }
         return -1;
@@ -113,7 +119,7 @@ const Tier = ({
             />
           );
         }}
-        keyExtractor={(title) => title.id}
+        keyExtractor={title => title.id}
       />
     );
   };
@@ -196,7 +202,7 @@ const Tier = ({
     return <Text>{`${minutes}:${seconds}`}</Text>;
   };
 
-  const getTime = (track) => {
+  const getTime = track => {
     if (times[track.id] !== track.duration) {
       setTimes({ ...times, [track.id]: track.duration });
     }
@@ -267,7 +273,7 @@ const Tier = ({
       <>
         <Pressable
           style={[baseStyle.marqee, baseStyle.tier]}
-          onPress={() => setExpand((state) => !state)}
+          onPress={() => setExpand(state => !state)}
         >
           <View style={[styles.tierName]}>
             <Arrow style={arrow} />
@@ -312,7 +318,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     titles: state.titles,
     band: state.bands.currentBand,
