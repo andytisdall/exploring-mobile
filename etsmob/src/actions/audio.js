@@ -104,8 +104,8 @@ const updateQueue = async (action, state, currentSong = null) => {
     const queue = allTitles.slice(currentIndex + increment);
 
     return queue.map(song => {
-      const version = state.versions[song.selectedVersion.id];
-      const bounce = state.bounces[song.selectedBounce.id];
+      const version = song.selectedVersion;
+      const bounce = song.selectedBounce;
 
       return {
         title: song.title,

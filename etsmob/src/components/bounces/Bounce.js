@@ -14,6 +14,7 @@ import {
   editBounce,
   deleteBounce,
   queueSongs,
+  fetchBounces,
 } from '../../actions';
 import PlayButton from '../../assets/images/play.svg';
 
@@ -34,47 +35,81 @@ const Bounce = ({
   deleteBounce,
   song,
   queueSongs,
+  fetchBounces,
 }) => {
   const [selectedBounce, setSelectedBounce] = useState(title.selectedBounce);
   const [uploadActive, setUploadActive] = useState(false);
+  const [bounceList, setBounceList] = useState(null);
 
   useEffect(() => {
-    if (selectedBounce && selectedBounce.id !== title.selectedBounce.id) {
+    fetchBounces(version.id);
+  }, [version, fetchBounces]);
+
+  useEffect(() => {
+    if (
+      selectedBounce &&
+      title.selectedBounce &&
+      selectedBounce.id !== title.selectedBounce.id
+    ) {
       selectBounce(selectedBounce, title.id);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedBounce, selectBounce]);
+  }, [selectedBounce, selectBounce, title.id]);
 
-  // useEffect(() => {
-  //   if (selectedBounce !== title.selectedBounce) {
-  //     setSelectedBounce(title.selectedBounce);
-  //     setUploadActive(false);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [title]);
+  useEffect(() => {
+    if (selectedBounce !== title.selectedBounce) {
+      setSelectedBounce(title.selectedBounce);
+      setUploadActive(false);
+    }
+  }, [title, title.selectedBounce]);
 
-  const displayDate = (date) => {
+  useEffect(() => {
+    setBounceList(version.bounces.map(id => bounces[id]));
+  }, [bounces, version.bounces]);
+
+  useEffect(() => {
+    if (bounceList && bounceList[0] && !selectedBounce) {
+      let bounceToSelect = bounceList.find(b => b.latest);
+      if (!bounceToSelect) {
+        bounceToSelect = bounceList[0];
+      }
+      setSelectedBounce(bounceToSelect);
+
+      //edit title is for migrating tiles that didnt have
+      // a selected version and bounce in the db
+      // editTitle(
+      //   {
+      //     ...title,
+      //     selectedBounce: bounceToSelect.id,
+      //     selectedVersion: version.id,
+      //   },
+      //   title.id,
+      //   tier.id
+      // );
+    }
+  }, [bounceList, selectedBounce]);
+
+  const displayDate = date => {
     return moment.utc(date).format('MM/DD/yy');
   };
 
-  const displayBounce = (b) => {
+  const displayBounce = b => {
     return `${displayDate(b.date)}`;
   };
 
   const itemList = () => {
     if (selectedBounce) {
-      return bounces
-        .filter((b) => b && b.id !== selectedBounce.id)
+      return bounceList
+        .filter(b => b && b.id !== selectedBounce.id)
         .sort((a, b) => (a.date < b.date ? 1 : -1));
     }
   };
 
-  const onAddSubmit = (formValues) => {
+  const onAddSubmit = formValues => {
     createBounce(formValues, version.id, title.id);
     setUploadActive(true);
   };
 
-  const onEditSubmit = (formValues) => {
+  const onEditSubmit = formValues => {
     editBounce(formValues, selectedBounce.id, version.id);
     if (formValues.file) {
       setUploadActive(true);
@@ -193,7 +228,7 @@ const Bounce = ({
     );
   };
 
-  if (version) {
+  if (bounceList) {
     return (
       <>
         <DetailBox
@@ -223,10 +258,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, {
+const mapStateToProps = state => {
+  return {
+    bounces: state.bounces,
+  };
+};
+
+export default connect(mapStateToProps, {
   selectBounce,
   createBounce,
   editBounce,
   deleteBounce,
   queueSongs,
+  fetchBounces,
 })(requireAuth(Bounce));

@@ -9,6 +9,7 @@ import {
   createVersion,
   editVersion,
   deleteVersion,
+  fetchVersions,
 } from '../../actions';
 import Bounce from '../bounces/Bounce';
 // import AddVersion from './AddVersion';
@@ -27,54 +28,56 @@ const Version = ({
   editVersion,
   deleteVersion,
   song,
+  fetchVersions,
 }) => {
   const [selectedVersion, setSelectedVersion] = useState(title.selectedVersion);
-  const [bounceList, setBounceList] = useState(null);
+  const [versionList, setVersionList] = useState([]);
+
+  useEffect(() => {
+    fetchVersions(title.id);
+  }, [fetchVersions, title.id]);
+
+  useEffect(() => {
+    setVersionList(title.versions.map(id => versions[id]));
+  }, [title.versions, versions]);
 
   useEffect(() => {
     // console.log(selectedVersion);
-    if (selectedVersion && selectedVersion !== title.selectedVersion) {
+    if (
+      selectedVersion &&
+      title.selectedVersion &&
+      selectedVersion.id !== title.selectedVersion.id
+    ) {
       selectVersion(selectedVersion, title.id);
-      setBounceList(selectedVersion.bounces.map((id) => bounces[id]));
-      fetchBounces(selectedVersion.id);
     }
-  }, [
-    selectedVersion,
-    selectVersion,
-    setBounceList,
-    fetchBounces,
-    title,
-    bounces,
-  ]);
+  }, [selectedVersion, selectVersion]);
 
   useEffect(() => {
-    if (selectedVersion) {
-      // console.log(title.selectedVersion)
-      setBounceList(selectedVersion.bounces.map((id) => bounces[id]));
+    if (versionList[0] && !selectedVersion) {
+      setSelectedVersion(versionList.find(v => v.current));
+    } else if (
+      selectedVersion &&
+      versionList[0] &&
+      !versionList.includes(selectedVersion)
+    ) {
+      setSelectedVersion(versionList.find(v => v.id === selectedVersion.id));
     }
-  }, [bounces, selectedVersion]);
+  }, [versionList, selectedVersion]);
 
   useEffect(() => {
     if (selectedVersion !== title.selectedVersion) {
       setSelectedVersion(title.selectedVersion);
     }
-  }, [title.selectedVersion, selectedVersion]);
+  }, [title.selectedVersion]);
 
   const renderBounces = () => {
-    if (bounceList && selectedVersion) {
-      return (
-        <Bounce
-          bounces={bounceList}
-          title={title}
-          version={selectedVersion}
-          song={song}
-        />
-      );
+    if (selectedVersion) {
+      return <Bounce title={title} version={selectedVersion} song={song} />;
     }
   };
 
   const renderArrow = () => {
-    if (bounceList && selectedVersion) {
+    if (selectedVersion) {
       return <Text>&rarr;</Text>;
     }
   };
@@ -132,35 +135,38 @@ const Version = ({
   // };
 
   const itemList = () => {
-    return versions.filter((v) => v.id !== selectedVersion.id);
+    return versionList.filter(v => v.id !== selectedVersion.id);
   };
 
-  const displayVersion = (v) => {
+  const displayVersion = v => {
     return `${v.name}`;
   };
 
-  return (
-    <>
-      <DetailBox
-        selectedItem={selectedVersion}
-        itemType="Version"
-        itemList={itemList}
-        displayItem={displayVersion}
-        setSelected={setSelectedVersion}
-        // renderAddButton={renderAddButton}
-        // renderEditButton={renderEditButton}
-        // renderDeleteButton={renderDeleteButton}
-      />
-      <View>{renderArrow()}</View>
-      {renderBounces()}
-    </>
-  );
+  if (versionList && versionList[0]) {
+    return (
+      <>
+        <DetailBox
+          selectedItem={selectedVersion}
+          itemType="Version"
+          itemList={itemList}
+          displayItem={displayVersion}
+          setSelected={setSelectedVersion}
+          // renderAddButton={renderAddButton}
+          // renderEditButton={renderEditButton}
+          // renderDeleteButton={renderDeleteButton}
+        />
+        <View>{renderArrow()}</View>
+        {renderBounces()}
+      </>
+    );
+  }
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     bounces: state.bounces,
     band: state.bands.currentBand,
+    versions: state.versions,
   };
 };
 
@@ -170,4 +176,5 @@ export default connect(mapStateToProps, {
   createVersion,
   editVersion,
   deleteVersion,
+  fetchVersions,
 })(requireAuth(Version));
