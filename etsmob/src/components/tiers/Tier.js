@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { connect } from 'react-redux';
 // import { Draggable } from 'react-beautiful-dnd';
 import {
@@ -38,7 +38,6 @@ const Tier = ({
 }) => {
   const [expand, setExpand] = useState(false);
   const [titlesToRender, setTitlesToRender] = useState(null);
-  const [times, setTimes] = useState({});
   const [orderedTitles, setOrderedTitles] = useState({});
 
   useEffect(() => {
@@ -46,7 +45,17 @@ const Tier = ({
   }, [fetchTitles, setOrder, tier.id]);
 
   useEffect(() => {
-    setTitlesToRender(tier.trackList.map(id => titles[id]));
+    const trackListTitles = tier.trackList.map(id => titles[id]);
+    if (trackListTitles[0]) {
+      setTitlesToRender(trackListTitles);
+
+      trackListTitles.map((t, i) => {
+        if (t.selectedBounce?.latest && t.selectedVersion?.current) {
+          findLatest(t, t.selectedBounce);
+        }
+        return;
+      });
+    }
   }, [titles, tier.trackList]);
 
   // useEffect(() => {
@@ -73,7 +82,7 @@ const Tier = ({
     setOrderedTitles(state => {
       return {
         ...state,
-        [title.id]: new Date(bounce.date),
+        [title.id]: new Date(bounce.date) || null,
       };
     });
   };
@@ -83,17 +92,15 @@ const Tier = ({
 
     if (!tier.orderBy || tier.orderBy === 'date') {
       titleList.sort((a, b) => {
-        if (a.selectedBounce && b.selectedBounce) {
-          if (
-            new Date(a.selectedBounce.date) > new Date(b.selectedBounce.date)
-          ) {
+        if (orderedTitles[a.id] && orderedTitles[b.id]) {
+          if (orderedTitles[a.id] > orderedTitles[b.id]) {
             return -1;
           } else {
             return 1;
           }
-        } else if (a.selectedBounce) {
+        } else if (orderedTitles[a.id]) {
           return -1;
-        } else if (b.selectedBounce) {
+        } else if (orderedTitles[b.id]) {
           return 1;
         }
         return -1;
@@ -110,14 +117,7 @@ const Tier = ({
       <FlatList
         data={titleList}
         renderItem={({ item }) => {
-          return (
-            <Title
-              title={item}
-              tier={tier}
-              getTime={getTime}
-              findLatest={findLatest}
-            />
-          );
+          return <Title title={item} tier={tier} findLatest={findLatest} />;
         }}
         keyExtractor={title => title.id}
       />
@@ -186,25 +186,21 @@ const Tier = ({
   // };
 
   const renderTotalTime = () => {
-    const total = Object.values(times).reduce((prev, cur) => {
-      return prev + cur;
-    }, 0);
+    if (titlesToRender) {
+      const total = titlesToRender.reduce((prev, cur) => {
+        return prev + cur.selectedBounce?.duration;
+      }, 0);
 
-    if (!total) {
-      return null;
-    }
+      if (!total) {
+        return null;
+      }
 
-    const minutes = Math.floor(total / 60);
-    const seconds =
-      Math.floor(total % 60) < 10
-        ? '0' + Math.floor(total % 60)
-        : Math.floor(total % 60);
-    return <Text>{`${minutes}:${seconds}`}</Text>;
-  };
-
-  const getTime = track => {
-    if (times[track.id] !== track.duration) {
-      setTimes({ ...times, [track.id]: track.duration });
+      const minutes = Math.floor(total / 60);
+      const seconds =
+        Math.floor(total % 60) < 10
+          ? '0' + Math.floor(total % 60)
+          : Math.floor(total % 60);
+      return <Text>{`${minutes}:${seconds}`}</Text>;
     }
   };
 

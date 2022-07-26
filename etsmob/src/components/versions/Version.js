@@ -43,6 +43,7 @@ const Version = ({
 
   useEffect(() => {
     // console.log(selectedVersion);
+    // console.log('a');
     if (
       selectedVersion &&
       title.selectedVersion &&
@@ -53,6 +54,7 @@ const Version = ({
   }, [selectedVersion, selectVersion]);
 
   useEffect(() => {
+    // console.log('b');
     if (versionList[0] && !selectedVersion) {
       setSelectedVersion(versionList.find(v => v.current));
     } else if (
@@ -65,6 +67,7 @@ const Version = ({
   }, [versionList, selectedVersion]);
 
   useEffect(() => {
+    // console.log('c');
     if (selectedVersion !== title.selectedVersion) {
       setSelectedVersion(title.selectedVersion);
     }

@@ -35,7 +35,6 @@ const Title = ({
   createPlaylistSong,
   editTitle,
   deleteTitle,
-  getTime,
   audio,
   findLatest,
   tiers,
@@ -48,31 +47,28 @@ const Title = ({
   const chordButtonRef = useRef();
   // console.log('GG');
 
-  useEffect(
-    () => {
-      // console.log('a');
-      if (title.selectedBounce && title.selectedVersion) {
-        setSong({
-          parent: tier,
-          title: titles[title.id],
-          version: title.selectedVersion,
-          bounce: title.selectedBounce,
-        });
-        getTime({ id: title.id, duration: title.selectedBounce.duration });
-      } else if (song && !title.selectedBounce) {
-        setSong(null);
-        getTime({ id: title.id, duration: 0 });
-      }
-    },
-
-    [
-      // getTime,
-      // tier,
-      // titles,
-      // title,
-      // versions,
-    ],
-  );
+  useEffect(() => {
+    // console.log('a');
+    if (title.selectedBounce && title.selectedVersion) {
+      setSong({
+        parent: tier,
+        title: titles[title.id],
+        version: title.selectedVersion,
+        bounce: title.selectedBounce,
+      });
+      if (title.selectedBounce.latest && title.selectedVersion.current)
+        findLatest(title, title.selectedBounce);
+    } else if (song && !title.selectedBounce) {
+      setSong(null);
+      findLatest(title, null);
+    }
+  }, [
+    // getTime,
+    // tier,
+    // titles,
+    title.selectedBounce,
+    // versions,
+  ]);
 
   useEffect(() => {
     // console.log('c');
@@ -85,7 +81,7 @@ const Title = ({
         selectBounce(null, title.id);
       }
     }
-  }, [bounces, selectBounce, title.selectedVersion]);
+  }, [selectBounce, title.selectedVersion]);
 
   useEffect(() => {
     // console.log('d');
