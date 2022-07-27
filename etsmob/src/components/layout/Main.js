@@ -16,6 +16,8 @@ import {
   createPlaylist,
   editTier,
   editPlaylist,
+  fetchBand,
+  initializeAudio,
 } from '../../actions';
 import Tier from '../tiers/Tier';
 // import Playlist from '../playlists/Playlist';
@@ -24,6 +26,9 @@ import requireAuth from '../reusable/requireAuth';
 // import AddTier from '../tiers/AddTier';
 import baseStyle from '../../style/baseStyle';
 // import DragContainer from './DragContainer';
+import Audio from '../audio/Audio';
+import Error from './Error';
+import TrackPlayer from 'react-native-track-player';
 
 const BodyContainer = ({
   fetchPlaylists,
@@ -38,13 +43,31 @@ const BodyContainer = ({
   user,
   editTier,
   editPlaylist,
+  fetchBand,
+  route,
+  initializeAudio,
 }) => {
   const [tierList, setTierList] = useState([]);
   const [playlistList, setPlaylistList] = useState([]);
 
+  useEffect(
+    () => () => {
+      initializeAudio();
+    },
+    [initializeAudio],
+  );
+
   useEffect(() => {
-    fetchTiers(band.id);
-    fetchPlaylists(band.id);
+    if (!band) {
+      fetchBand(route.params.band);
+    }
+  }, [band, fetchBand, route.params.band]);
+
+  useEffect(() => {
+    if (band) {
+      fetchTiers(band.id);
+      fetchPlaylists(band.id);
+    }
   }, [band, fetchTiers, fetchPlaylists]);
 
   useEffect(() => {
@@ -52,35 +75,39 @@ const BodyContainer = ({
   }, [user, handleUpdate]);
 
   useEffect(() => {
-    setTierList(
-      band.tiers
-        .map(id => tiers[id])
-        .sort((a, b) => {
-          if (a.position < b.position) {
+    if (band) {
+      setTierList(
+        band.tiers
+          .map(id => tiers[id])
+          .sort((a, b) => {
+            if (a.position < b.position) {
+              return -1;
+            }
+            if (b.position < a.position) {
+              return 1;
+            }
             return -1;
-          }
-          if (b.position < a.position) {
-            return 1;
-          }
-          return -1;
-        }),
-    );
+          }),
+      );
+    }
   }, [tiers, setTierList, band]);
 
   useEffect(() => {
-    setPlaylistList(
-      band.playlists
-        .map(id => playlists[id])
-        .sort((a, b) => {
-          if (a.position < b.position) {
+    if (band) {
+      setPlaylistList(
+        band.playlists
+          .map(id => playlists[id])
+          .sort((a, b) => {
+            if (a.position < b.position) {
+              return -1;
+            }
+            if (b.position < a.position) {
+              return 1;
+            }
             return -1;
-          }
-          if (b.position < a.position) {
-            return 1;
-          }
-          return -1;
-        }),
-    );
+          }),
+      );
+    }
   }, [playlists, band]);
 
   const renderTiers = () => {
@@ -154,45 +181,76 @@ const BodyContainer = ({
     );
   };
 
+  const showContent = () => {
+    if (!band) {
+      return (
+        <View style={styles.noBand}>
+          <Text>No Band!</Text>
+        </View>
+      );
+    }
+    if (band.id === 404) {
+      return (
+        <View className="no-band">
+          <h1>
+            This band does not exist on Exploring the Space, but you can create
+            it.
+          </h1>
+          <View className="home-buttons">
+            {/* <Link to="/">Home</Link>
+            <Link to="/help">What Is It?</Link> */}
+          </View>
+        </View>
+      );
+    }
+
+    return (
+      <>
+        <Audio />
+        <FlatList
+          data={sections}
+          renderItem={renderSection}
+          keyExtractor={section => section.name}
+          contentContainerStyle={styles.listStyle}
+        />
+        <Error />
+        {/* <div className="playlists">
+      <div className="section-header">
+        <h2 className="section-title">Playlists</h2>
+        <div className="section-add">{renderPlaylistAddButton()}</div>
+      </div>
+      <hr />
+       {playlists && renderPlaylists()} */}
+      </>
+    );
+  };
+
   const sections = [{ name: 'Tiers', render: renderTiers }];
 
   return (
-    <View style={styles.main}>
-      <FlatList
-        data={sections}
-        renderItem={renderSection}
-        keyExtractor={section => section.name}
-        contentContainerStyle={styles.listStyle}
-      />
-      {/* <div className="playlists">
-        <div className="section-header">
-          <h2 className="section-title">Playlists</h2>
-          <div className="section-add">{renderPlaylistAddButton()}</div>
-        </div>
-        <hr />
-        {/* {playlists && renderPlaylists()} */}
-    </View>
+    <View style={[styles.main, baseStyle.background]}>{showContent()}</View>
   );
 };
 
 const styles = StyleSheet.create({
   main: {
-    paddingTop: 20,
     paddingHorizontal: 8,
-    backgroundColor: 'rgb(56, 56, 56)',
     height: '100%',
   },
   sectionHeader: {
-    marginTop: 10,
+    marginTop: 20,
     borderBottomColor: 'rgb(72, 145, 255)',
     borderBottomWidth: 1,
   },
   sectionTitle: {
-    fontSize: 27,
+    fontSize: 30,
     paddingBottom: 5,
   },
   listStyle: {
-    paddingBottom: 400,
+    paddingBottom: 200,
+  },
+  noBand: {
+    height: '100%',
   },
 });
 
@@ -213,4 +271,6 @@ export default connect(mapStateToProps, {
   createPlaylist,
   editTier,
   editPlaylist,
+  fetchBand,
+  initializeAudio,
 })(requireAuth(BodyContainer));

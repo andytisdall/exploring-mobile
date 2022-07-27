@@ -25,4 +25,6 @@ export default function service() {
       TrackPlayer.seekTo(newTime);
     }, DELAY);
   });
+
+  TrackPlayer.addEventListener(Event.RemoteDuck, () => TrackPlayer.pause());
 }

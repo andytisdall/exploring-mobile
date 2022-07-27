@@ -20,7 +20,6 @@ export default (state = {}, action) => {
     case FETCH_BAND:
       return {
         ...state,
-        [action.payload.id]: action.payload,
         currentBand: action.payload,
       };
     case FETCH_BANDS:
@@ -38,7 +37,7 @@ export default (state = {}, action) => {
       return { ...state, [currentBand.id]: currentBand, currentBand };
     case DELETE_TIER:
       const band = state.currentBand;
-      const newTiers = band.tiers.filter((id) => id !== action.payload.id);
+      const newTiers = band.tiers.filter(id => id !== action.payload.id);
       band.tiers = newTiers;
       return { ...state, [band.id]: band, currentBand: band };
     case CREATE_PLAYLIST:
@@ -52,7 +51,7 @@ export default (state = {}, action) => {
     case DELETE_PLAYLIST:
       const bandP = state.currentBand;
       const newPlaylists = bandP.playlists.filter(
-        (id) => id !== action.payload.id
+        id => id !== action.payload.id,
       );
       bandP.playlists = newPlaylists;
       return { ...state, [bandP.id]: bandP, currentBand: bandP };

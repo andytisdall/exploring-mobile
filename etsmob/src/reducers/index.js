@@ -33,9 +33,13 @@ const appReducer = combineReducers({
 const reducers = (state, action) => {
   if (
     action.type === FETCH_BAND &&
-    action.payload !== state.bands.currentBand
+    state.bands.currentBand &&
+    action.payload.id !== state.bands.currentBand.id
   ) {
-    const clearedState = { auth: state.auth };
+    const clearedState = {
+      auth: state.auth,
+      bands: { ...state.bands, currentBand: action.payload },
+    };
     return appReducer(clearedState, action);
   }
   return appReducer(state, action);

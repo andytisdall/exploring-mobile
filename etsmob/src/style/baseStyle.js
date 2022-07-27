@@ -4,17 +4,25 @@ export default StyleSheet.create({
   background: {
     backgroundColor: 'rgb(56, 56, 56)',
   },
+  container: {
+    paddingHorizontal: 8,
+    flex: 1,
+  },
+  headerColor: {
+    color: '#65d478',
+  },
   h1: {
-    fontSize: 30,
+    fontSize: 33,
     margin: 10,
     color: 'white',
   },
   h2: {
-    fontSize: 23,
+    fontSize: 25,
     color: 'rgb(227, 210, 255)',
   },
   h3: {
-    fontSize: 18,
+    fontSize: 20,
+    paddingVertical: 5,
   },
   h5: {
     fontSize: 15,
@@ -23,7 +31,7 @@ export default StyleSheet.create({
   },
   marqee: {
     alignItems: 'center',
-    minHeight: 45,
+    minHeight: 50,
     flexDirection: 'row',
   },
   tier: {

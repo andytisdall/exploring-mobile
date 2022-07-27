@@ -1,4 +1,4 @@
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer, { State } from 'react-native-track-player';
 
 import {
   PLAY_AUDIO,
@@ -32,30 +32,6 @@ export const pauseAudio = () => {
   return { type: PAUSE_AUDIO };
 };
 
-export const queueSongs = (id, parent) => async (dispatch, getState) => {
-  const state = getState();
-  const newSong = { id, parent };
-
-  const queue = await updateQueue('new', state, newSong);
-  const convertedQueue = convertForPlayer(queue, state);
-
-  TrackPlayer.removeUpcomingTracks();
-  await TrackPlayer.remove(0);
-  const prevQueue = await TrackPlayer.getQueue();
-
-  await TrackPlayer.add(convertedQueue);
-  if (prevQueue.length) {
-    await TrackPlayer.skipToNext();
-  }
-
-  dispatch(playAudio());
-
-  dispatch({
-    type: QUEUE_SONGS,
-    payload: { song: convertedQueue[0], parent },
-  });
-};
-
 const orderTitles = (tier, state) => {
   const titleList = tier.trackList
     .map(id => state.titles[id])
@@ -78,7 +54,7 @@ const orderTitles = (tier, state) => {
   }
 };
 
-const updateQueue = async (action, state, currentSong = null) => {
+const updateQueue = (action, state, currentSong = null) => {
   let increment;
 
   if (action === 'next') {
@@ -146,9 +122,40 @@ const updateQueue = async (action, state, currentSong = null) => {
   }
 };
 
+export const queueSongs = (id, parent) => async (dispatch, getState) => {
+  const state = getState();
+  const newSong = { id, parent };
+
+  const queue = updateQueue('new', state, newSong);
+  const convertedQueue = convertForPlayer(queue, state);
+
+  TrackPlayer.removeUpcomingTracks();
+  await TrackPlayer.remove(0);
+  const prevQueue = await TrackPlayer.getQueue();
+
+  await TrackPlayer.add(convertedQueue);
+  if (prevQueue.length) {
+    await TrackPlayer.skipToNext();
+  }
+
+  // let player get ready to avoid hiccups
+  let playerReady;
+  while (!playerReady) {
+    let playerState = await TrackPlayer.getState();
+    playerReady = playerState === State.Ready;
+  }
+
+  dispatch(playAudio());
+
+  dispatch({
+    type: QUEUE_SONGS,
+    payload: { song: convertedQueue[0], parent },
+  });
+};
+
 export const nextSong = () => async (dispatch, getState) => {
   const state = getState();
-  const newQueue = await updateQueue('next', state);
+  const newQueue = updateQueue('next', state);
 
   if (!newQueue.length) {
     return dispatch(initializeAudio());
@@ -172,15 +179,17 @@ export const nextSong = () => async (dispatch, getState) => {
 
 export const prevSong = () => async (dispatch, getState) => {
   const state = getState();
-  const newQueue = await updateQueue('prev', state);
+  const newQueue = updateQueue('prev', state);
+
+  const convertedQueue = convertForPlayer(newQueue, state);
 
   TrackPlayer.removeUpcomingTracks();
-  await TrackPlayer.add(convertForPlayer(newQueue, state));
+  await TrackPlayer.add(convertedQueue);
 
   await TrackPlayer.skipToNext();
 
   if (newQueue[0]) {
-    dispatch({ type: NEXT_SONG, payload: newQueue[0] });
+    dispatch({ type: NEXT_SONG, payload: convertedQueue[0] });
   } else {
     dispatch(initializeAudio());
   }
@@ -192,7 +201,6 @@ export const changeVolume = value => {
 
 export const initializeAudio = () => async dispatch => {
   TrackPlayer.removeUpcomingTracks();
-  TrackPlayer.remove(0);
   TrackPlayer.pause();
   dispatch({ type: INITIALIZE_AUDIO });
 };

@@ -25,8 +25,18 @@ import PrevButton from '../../assets/images/prev.svg';
 import NextButton from '../../assets/images/next.svg';
 import baseStyle from '../../style/baseStyle';
 
-const Audio = props => {
+const Audio = ({
+  song,
+  syncAudioState,
+  nextSong,
+  prevSong,
+  isPlaying,
+  playAudio,
+  pauseAudio,
+  show,
+}) => {
   const { position, duration } = useProgress();
+  const [playerState, setPlayerState] = useState(State.Paused);
 
   const events = [Event.PlaybackState, Event.PlaybackError];
 
@@ -39,27 +49,25 @@ const Audio = props => {
   // };
 
   useEffect(() => {
-    props.syncAudioState();
-  }, [props.song]);
+    syncAudioState();
+  }, [song, syncAudioState]);
 
   // useEffect(() => {
   //   syncronizeCurrentSong();
   // }, [position]);
 
   useTrackPlayerEvents(events, async event => {
-    props.syncAudioState();
+    syncAudioState();
 
     if (event.type === Event.PlaybackError) {
       throwError('audio player had an error');
       console.log('track player crashed');
     }
     if (event.type === Event.PlaybackState) {
-      if (event.state === State.Playing && !props.isPlaying) {
-        // props.syncAudioState();
-      }
+      setPlayerState(event.state);
     }
     if (event.type === Event.PlaybackTrackChanged) {
-      // props.syncAudioState();
+      // syncAudioState();
     }
   });
 
@@ -75,16 +83,16 @@ const Audio = props => {
     return moment.utc(date).format('MM/DD/yy');
   };
 
-  const prevSong = () => {
+  const prev = () => {
     if (position < 1) {
-      props.prevSong();
+      prevSong();
     } else {
       TrackPlayer.seekTo(0);
     }
   };
 
-  const nextSong = () => {
-    props.nextSong();
+  const next = () => {
+    nextSong();
   };
 
   const onSliderChange = value => {
@@ -92,58 +100,65 @@ const Audio = props => {
   };
 
   const onPauseButton = () => {
-    if (props.isPlaying) {
-      props.pauseAudio();
+    if (isPlaying) {
+      pauseAudio();
     } else {
-      props.playAudio();
+      playAudio();
     }
   };
 
-  const playButton = !props.isPlaying ? (
+  const showPlayerState = () => {
+    const statesToShow = [State.Buffering];
+    if (statesToShow.includes(playerState)) {
+      return <Text style={styles.playerState}>{playerState}</Text>;
+    }
+  };
+
+  const playButton = !isPlaying ? (
     <PlayButton style={styles.bigButton} />
   ) : (
     <PauseButton style={styles.bigButton} />
   );
 
-  if (props.song) {
+  if (song && show) {
     return (
       <View style={styles.playbar}>
         <View style={styles.playbarHeader}>
-          <View style={styles.playbarTitle}>
-            <Text style={styles.songTitle}>{props.song.title}</Text>
-          </View>
+          <Text style={styles.songTitle}>{song.title}</Text>
 
-          <View style={styles.bigPlayContainer}>
-            <Pressable onPress={prevSong}>
-              <PrevButton style={styles.smallButton} />
-            </Pressable>
-            <Pressable onPress={onPauseButton}>{playButton}</Pressable>
-            <Pressable onPress={nextSong}>
-              <NextButton style={styles.smallButton} />
-            </Pressable>
-          </View>
-
-          <View style={{ flex: 1 }}>
+          <View style={[styles.playbarMain]}>
             <View style={[styles.playbarInfo]}>
-              <Text style={[styles.playbarInfoDetail, baseStyle.text]}>
+              <Text style={[baseStyle.text, styles.playbarInfoDetail]}>
                 Version:
               </Text>
-              <Text style={[styles.playbarInfoDetail, baseStyle.text]}>
-                {props.song.version}
+              <Text style={[baseStyle.text, styles.playbarInfoDetailData]}>
+                {song.version}
               </Text>
             </View>
-            <View style={[styles.playbarInfo]}>
-              <Text style={[styles.playbarInfoDetail, baseStyle.text]}>
+
+            <View style={styles.bigPlayContainer}>
+              <Pressable onPress={prev}>
+                <PrevButton style={styles.smallButton} />
+              </Pressable>
+              <Pressable onPress={onPauseButton}>{playButton}</Pressable>
+              <Pressable onPress={next}>
+                <NextButton style={styles.smallButton} />
+              </Pressable>
+            </View>
+
+            <View style={[styles.playbarInfo, styles.right]}>
+              <Text style={[baseStyle.text, styles.playbarInfoDetail]}>
                 Date:
               </Text>
-              <Text style={[styles.playbarInfoDetail, baseStyle.text]}>
-                {displayDate(props.song.date)}
+              <Text style={[baseStyle.text, styles.playbarInfoDetailData]}>
+                {displayDate(song.date)}
               </Text>
             </View>
           </View>
         </View>
-        <View style={styles.playsliderContainer}>
-          <Text style={[styles.playsliderTime, baseStyle.text]}>
+
+        <View style={[styles.playsliderContainer]}>
+          <Text style={[baseStyle.text, styles.playsliderTime]}>
             {formatTime(position)}
           </Text>
           <MultiSlider
@@ -151,11 +166,14 @@ const Audio = props => {
             max={Math.floor(duration) || 1000}
             onValuesChangeFinish={onSliderChange}
             markerStyle={styles.thumb}
+            trackStyle={styles.track}
+            containerStyle={styles.slider}
           />
-          <Text style={[styles.playsliderTime, baseStyle.text]}>
+          <Text style={[baseStyle.text, styles.playsliderTime]}>
             {formatTime(duration)}
           </Text>
         </View>
+        {showPlayerState()}
       </View>
     );
   } else {
@@ -169,58 +187,76 @@ const styles = StyleSheet.create({
     borderColor: 'rgb(62, 255, 239)',
     borderWidth: 1,
     width: '100%',
-    paddingVertical: 5,
+    paddingTop: 7,
   },
   playbarHeader: {
-    flexDirection: 'row',
     paddingHorizontal: 10,
-    paddingVertical: 5,
+    alignItems: 'center',
   },
-  playbarTitle: {
-    width: '30%',
-    marginLeft: 5,
+  songTitle: {
+    color: 'white',
+    fontSize: 28,
+    letterSpacing: 1,
+    textAlign: 'center',
+  },
+  playbarMain: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginTop: 8,
   },
   bigPlayContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // width: '20%',
     alignItems: 'center',
-    marginHorizontal: 10,
   },
   bigButton: {
-    height: 40,
-    width: 40,
-    marginHorizontal: 10,
+    height: 55,
+    width: 55,
+    marginHorizontal: 20,
   },
   smallButton: {
-    height: 25,
-    width: 25,
+    height: 30,
+    width: 30,
   },
   playbarInfo: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginLeft: 20,
+    width: '25%',
+    justifyContent: 'center',
+  },
+  right: {
+    alignItems: 'flex-end',
   },
   playbarInfoDetail: {
-    fontSize: 10,
-    marginBottom: 5,
+    fontSize: 15,
+  },
+  playbarInfoDetailData: {
+    fontSize: 15,
+    color: 'yellow',
   },
   playsliderContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingleft: 10,
   },
   playsliderTime: {
-    fontSize: 10,
+    fontSize: 15,
+    marginLeft: 10,
   },
-  songTitle: {
-    color: 'white',
-    fontSize: 18,
+  slider: {
+    height: 40,
+  },
+  track: {
+    backgroundColor: 'yellow',
   },
   thumb: {
     width: 7,
     height: 20,
     backgroundColor: 'red',
+  },
+  playerState: {
+    color: 'white',
+    alignSelf: 'center',
   },
 });
 
@@ -228,6 +264,7 @@ const mapStateToProps = state => {
   return {
     song: state.audio.currentSong,
     isPlaying: state.audio.play,
+    show: state.audio.show,
   };
 };
 

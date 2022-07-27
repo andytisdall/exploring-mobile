@@ -45,17 +45,18 @@ const Tier = ({
   }, [fetchTitles, setOrder, tier.id]);
 
   useEffect(() => {
-    const trackListTitles = tier.trackList.map(id => titles[id]);
-    if (trackListTitles[0]) {
-      setTitlesToRender(trackListTitles);
+    const trackListTitles = tier.trackList
+      .map(id => titles[id])
+      .filter(title => title);
 
-      trackListTitles.map((t, i) => {
-        if (t.selectedBounce?.latest && t.selectedVersion?.current) {
-          findLatest(t, t.selectedBounce);
-        }
-        return;
-      });
-    }
+    setTitlesToRender(trackListTitles);
+
+    trackListTitles.map(t => {
+      if (t?.selectedBounce?.latest && t.selectedVersion?.current) {
+        findLatest(t, t.selectedBounce);
+      }
+      return;
+    });
   }, [titles, tier.trackList]);
 
   // useEffect(() => {
@@ -78,40 +79,57 @@ const Tier = ({
   // }, [expand]);
 
   const findLatest = (title, bounce) => {
-    // console.log(title.title);
     setOrderedTitles(state => {
-      return {
-        ...state,
-        [title.id]: new Date(bounce.date) || null,
-      };
+      if (bounce) {
+        return {
+          ...state,
+          [title.id]: new Date(bounce.date),
+        };
+      } else {
+        return {
+          ...state,
+          [title.id]: null,
+        };
+      }
     });
   };
 
-  const renderTitles = () => {
-    const titleList = titlesToRender.filter(title => title);
+  const orderTitles = useCallback(
+    t => {
+      const titleList = [...t];
 
-    if (!tier.orderBy || tier.orderBy === 'date') {
-      titleList.sort((a, b) => {
-        if (orderedTitles[a.id] && orderedTitles[b.id]) {
-          if (orderedTitles[a.id] > orderedTitles[b.id]) {
+      if (!tier.orderBy || tier.orderBy === 'date') {
+        titleList.sort((a, b) => {
+          if (orderedTitles[a.id] && orderedTitles[b.id]) {
+            if (orderedTitles[a.id] > orderedTitles[b.id]) {
+              return -1;
+            } else {
+              return 1;
+            }
+          } else if (orderedTitles[a.id]) {
+            return -1;
+          } else if (orderedTitles[b.id]) {
+            return 1;
+          } else if (a.title < b.title) {
             return -1;
           } else {
             return 1;
           }
-        } else if (orderedTitles[a.id]) {
-          return -1;
-        } else if (orderedTitles[b.id]) {
-          return 1;
-        }
-        return -1;
-      });
-    }
+        });
+      }
 
-    if (tier.orderBy === 'name') {
-      titleList.sort((a, b) => {
-        return a.title < b.title ? -1 : 1;
-      });
-    }
+      if (tier.orderBy === 'name') {
+        titleList.sort((a, b) => {
+          return a.title < b.title ? -1 : 1;
+        });
+      }
+      return titleList;
+    },
+    [orderedTitles, tier.orderBy],
+  );
+
+  const renderTitles = () => {
+    const titleList = orderTitles(titlesToRender);
 
     return (
       <FlatList

@@ -15,12 +15,13 @@ const initialState = {
   play: false,
   volume: 75,
   currentSong: null,
+  show: false,
 };
 
 const audioReducer = (state = initialState, action) => {
   switch (action.type) {
     case PLAY_AUDIO:
-      return { ...state, play: true };
+      return { ...state, play: true, show: true };
     case PAUSE_AUDIO:
       return { ...state, play: false };
     case QUEUE_SONGS:
@@ -40,7 +41,6 @@ const audioReducer = (state = initialState, action) => {
     case CHANGE_VOLUME:
       return { ...state, volume: action.payload };
     case INITIALIZE_AUDIO:
-      console.log('initialize audio');
       return { ...initialState };
     case SYNC_AUDIO:
       const isPlaying = action.payload.playerState === State.Playing;
@@ -49,12 +49,12 @@ const audioReducer = (state = initialState, action) => {
       let currentSong = state.currentSong;
       const stateIsChanged =
         (isPlaying && !state.play) ||
-        (isPaused && !state.play) ||
+        (isPaused && state.play) ||
         !currentTrack ||
         !currentSong ||
         currentTrack.id !== currentSong.id;
       if (stateIsChanged) {
-        return { ...state, currentSong: currentTrack };
+        return { ...state, currentSong: currentTrack, play: isPlaying };
       } else {
         return state;
       }

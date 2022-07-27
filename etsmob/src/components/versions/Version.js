@@ -4,7 +4,6 @@ import _ from 'lodash';
 import { View, Text } from 'react-native';
 
 import {
-  fetchBounces,
   selectVersion,
   createVersion,
   editVersion,
@@ -20,8 +19,6 @@ import DetailBox from '../reusable/DetailBox';
 
 const Version = ({
   versions,
-  bounces,
-  fetchBounces,
   selectVersion,
   title,
   authorized,
@@ -167,14 +164,12 @@ const Version = ({
 
 const mapStateToProps = state => {
   return {
-    bounces: state.bounces,
     band: state.bands.currentBand,
     versions: state.versions,
   };
 };
 
 export default connect(mapStateToProps, {
-  fetchBounces,
   selectVersion,
   createVersion,
   editVersion,

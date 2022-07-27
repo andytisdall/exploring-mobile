@@ -7,7 +7,7 @@ import { createTier } from '../../actions';
 const AddTier = ({ createTier }) => {
   return (
     <AddButton
-      onSubmit={(formValues) => createTier(formValues)}
+      onSubmit={formValues => createTier(formValues)}
       title="Add a Tier"
       image="/images/add.png"
       fields={[

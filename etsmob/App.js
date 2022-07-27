@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Root from './src/root';
-import Header from './src/components/layout/Header';
+import Main from './src/components/layout/Main';
+import Home from './src/components/pages/Home';
 import setupTrackPlayer from './src/track-player/setup';
+import baseStyle from './src/style/baseStyle';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,7 +19,24 @@ export default function App() {
     <Root initialState={initialState}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Band" component={Header} />
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Band"
+            component={Main}
+            options={({ route }) => ({
+              title: route.params.band.name,
+              headerStyle: [baseStyle.background, baseStyle.header],
+              headerTintColor: '#65d478',
+              headerTitleStyle: {
+                fontSize: 30,
+              },
+              headerBackTitleVisible: false,
+            })}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Root>

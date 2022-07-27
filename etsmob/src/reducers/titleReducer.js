@@ -42,7 +42,7 @@ const titleReducer = (state = {}, action) => {
       const deleteFromTitle = state[action.payload.title];
       if (deleteFromTitle) {
         const newVersionList = deleteFromTitle.versions.filter(
-          (id) => id !== action.payload.version.id
+          id => id !== action.payload.version.id,
         );
         deleteFromTitle.versions = newVersionList;
         return { ...state, [deleteFromTitle.id]: deleteFromTitle };

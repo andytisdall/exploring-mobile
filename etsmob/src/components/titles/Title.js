@@ -56,19 +56,26 @@ const Title = ({
         version: title.selectedVersion,
         bounce: title.selectedBounce,
       });
-      if (title.selectedBounce.latest && title.selectedVersion.current)
-        findLatest(title, title.selectedBounce);
-    } else if (song && !title.selectedBounce) {
+      if (title.selectedVersion.current) {
+        if (title.selectedBounce) {
+          if (
+            title.selectedVersion.bounces.includes(title.selectedBounce.id) &&
+            title.selectedBounce.latest
+          ) {
+            findLatest(title, title.selectedBounce);
+          }
+        } else {
+          findLatest(title, null);
+        }
+      }
+    } else if (
+      song &&
+      (!title.selectedVersion || !title.selectedVersion.bounces.length)
+    ) {
       setSong(null);
       findLatest(title, null);
     }
-  }, [
-    // getTime,
-    // tier,
-    // titles,
-    title.selectedBounce,
-    // versions,
-  ]);
+  }, [title.selectedBounce, title.selectedVersion]);
 
   useEffect(() => {
     // console.log('c');
@@ -81,7 +88,7 @@ const Title = ({
         selectBounce(null, title.id);
       }
     }
-  }, [selectBounce, title.selectedVersion]);
+  }, [selectBounce, title.selectedVersion, bounces]);
 
   useEffect(() => {
     // console.log('d');
@@ -101,13 +108,7 @@ const Title = ({
         // console.log('select bounce');
       }
     }
-  }, [
-    // bounceList,
-    // findLatest,
-    selectBounce,
-    title.id,
-    // title.selectedBounce
-  ]);
+  }, [selectBounce, title.id]);
 
   const renderPlayContainer = () => {
     if (song) {
@@ -267,6 +268,7 @@ const styles = StyleSheet.create({
   titleMargin: {
     marginLeft: 10,
     paddingLeft: 8,
+    marginRight: 5,
   },
   title: {
     borderTopColor: 'rgb(20, 29, 11)',

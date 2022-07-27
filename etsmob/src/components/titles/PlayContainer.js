@@ -11,11 +11,11 @@ import baseStyle from '../../style/baseStyle';
 const PlayContainer = ({ song, queueSongs }) => {
   const [loaded, setLoaded] = useState(false);
 
-  const displayDate = (date) => {
+  const displayDate = date => {
     return moment.utc(date).format('MM/DD/YY');
   };
 
-  const displayTime = (time) => {
+  const displayTime = time => {
     const minutes = Math.floor(time / 60);
     const seconds =
       Math.floor(time % 60) < 10
@@ -51,25 +51,26 @@ const styles = StyleSheet.create({
   playContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 40,
+    marginLeft: 37,
   },
   playContainerTime: {
-    fontSize: 12,
-    width: 33,
+    fontSize: 15,
+    width: 36,
   },
   playContainerDisplay: {
     marginLeft: 10,
   },
   playContainerText: {
-    fontSize: 10,
+    fontSize: 13,
     marginBottom: 4,
   },
   playButton: {
-    height: 30,
-    width: 30,
+    height: 35,
+    width: 35,
+    marginHorizontal: 4,
   },
 });
 
 export default connect(null, { queueSongs, queuePlaylistSongs, playAudio })(
-  PlayContainer
+  PlayContainer,
 );

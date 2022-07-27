@@ -9,19 +9,11 @@ import { errorHandler } from './errors';
 import greenhouse from '../apis/greenhouse';
 import { deleteTier } from './tiers';
 
-export const fetchBand = (bandName) => async (dispatch) => {
-  try {
-    const response = await greenhouse.get(`/bands/${bandName}`);
-    dispatch({ type: FETCH_BAND, payload: response.data });
-  } catch (err) {
-    if (err.response && err.response.status === 404) {
-      dispatch({ type: FETCH_BAND, payload: { id: 404 } });
-    }
-    dispatch(errorHandler(err));
-  }
+export const fetchBand = band => {
+  return { type: FETCH_BAND, payload: band };
 };
 
-export const fetchBands = () => async (dispatch) => {
+export const fetchBands = () => async dispatch => {
   try {
     const response = await greenhouse.get(`/bands`);
     dispatch({ type: FETCH_BANDS, payload: response.data });
@@ -30,7 +22,7 @@ export const fetchBands = () => async (dispatch) => {
   }
 };
 
-export const createBand = (formValues) => async (dispatch) => {
+export const createBand = formValues => async dispatch => {
   try {
     const response = await greenhouse.post('/bands', formValues);
     dispatch({ type: CREATE_BAND, payload: response.data });
@@ -39,7 +31,7 @@ export const createBand = (formValues) => async (dispatch) => {
   }
 };
 
-export const editBand = (formValues, bandId) => async (dispatch) => {
+export const editBand = (formValues, bandId) => async dispatch => {
   try {
     const response = await greenhouse.patch('/bands', {
       ...formValues,
@@ -51,12 +43,12 @@ export const editBand = (formValues, bandId) => async (dispatch) => {
   }
 };
 
-export const deleteBand = (bandId) => async (dispatch) => {
+export const deleteBand = bandId => async dispatch => {
   try {
     const response = await greenhouse.post('/bands/delete', {
       currentBand: bandId,
     });
-    response.data.tiers.forEach((tierId) => {
+    response.data.tiers.forEach(tierId => {
       dispatch(deleteTier(tierId, response.data.id));
     });
     dispatch({ type: DELETE_BAND, payload: response.data });
