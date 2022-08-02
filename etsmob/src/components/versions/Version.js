@@ -3,30 +3,11 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { View, Text } from 'react-native';
 
-import {
-  selectVersion,
-  createVersion,
-  editVersion,
-  deleteVersion,
-  fetchVersions,
-} from '../../actions';
+import { selectVersion, fetchVersions } from '../../actions';
 import Bounce from '../bounces/Bounce';
-// import AddVersion from './AddVersion';
-// import AddButton from '../reusable/AddButton';
-// import DeleteButton from '../reusable/DeleteButton';
-import requireAuth from '../reusable/requireAuth';
 import DetailBox from '../reusable/DetailBox';
 
-const Version = ({
-  versions,
-  selectVersion,
-  title,
-  authorized,
-  editVersion,
-  deleteVersion,
-  song,
-  fetchVersions,
-}) => {
+const Version = ({ versions, selectVersion, title, song, fetchVersions }) => {
   const [selectedVersion, setSelectedVersion] = useState(title.selectedVersion);
   const [versionList, setVersionList] = useState([]);
 
@@ -48,6 +29,7 @@ const Version = ({
     ) {
       selectVersion(selectedVersion, title.id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedVersion, selectVersion]);
 
   useEffect(() => {
@@ -68,6 +50,7 @@ const Version = ({
     if (selectedVersion !== title.selectedVersion) {
       setSelectedVersion(title.selectedVersion);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [title.selectedVersion]);
 
   const renderBounces = () => {
@@ -81,58 +64,6 @@ const Version = ({
       return <Text>&rarr;</Text>;
     }
   };
-
-  // const renderAddButton = () => {
-  //   if (authorized) {
-  //     return <AddVersion title={title} />;
-  //   }
-  // };
-
-  // const renderEditButton = () => {
-  //   if (authorized) {
-  //     return (
-  //       <AddButton
-  //         title={`Edit ${selectedVersion.name}`}
-  //         image="images/edit.png"
-  //         fields={[
-  //           {
-  //             label: 'Name',
-  //             name: 'name',
-  //             type: 'input',
-  //           },
-  //           {
-  //             label: 'Notes',
-  //             name: 'notes',
-  //             type: 'textarea',
-  //           },
-  //           {
-  //             label: 'Current Version?',
-  //             name: 'current',
-  //             type: 'checkbox',
-  //           },
-  //         ]}
-  //         onSubmit={(formValues) =>
-  //           editVersion(formValues, selectedVersion.id, title.id)
-  //         }
-  //         initialValues={_.pick(selectedVersion, 'name', 'notes', 'current')}
-  //         form={`edit-version-${title.id}`}
-  //         enableReinitialize={true}
-  //         addClass="add-version"
-  //       />
-  //     );
-  //   }
-  // };
-
-  // const renderDeleteButton = () => {
-  //   if (authorized) {
-  //     return (
-  //       <DeleteButton
-  //         onSubmit={() => deleteVersion(selectedVersion.id, title.id)}
-  //         displayName={selectedVersion.name}
-  //       />
-  //     );
-  //   }
-  // };
 
   const itemList = () => {
     return versionList.filter(v => v.id !== selectedVersion.id);
@@ -151,9 +82,6 @@ const Version = ({
           itemList={itemList}
           displayItem={displayVersion}
           setSelected={setSelectedVersion}
-          // renderAddButton={renderAddButton}
-          // renderEditButton={renderEditButton}
-          // renderDeleteButton={renderDeleteButton}
         />
         <View>{renderArrow()}</View>
         {renderBounces()}
@@ -171,8 +99,5 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {
   selectVersion,
-  createVersion,
-  editVersion,
-  deleteVersion,
   fetchVersions,
-})(requireAuth(Version));
+})(Version);

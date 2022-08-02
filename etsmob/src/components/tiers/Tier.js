@@ -1,42 +1,13 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { connect } from 'react-redux';
-// import { Draggable } from 'react-beautiful-dnd';
-import {
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  Pressable,
-  FlatList,
-} from 'react-native';
+import { FlatList, Pressable, Text, View, StyleSheet } from 'react-native';
 
-import {
-  createTier,
-  editTier,
-  fetchTitles,
-  deleteTier,
-  setOrder,
-} from '../../actions';
+import { createTier, fetchTitles, setOrder } from '../../actions';
 import Title from '../titles/Title';
-// import AddButton from '../reusable/AddButton';
-// import DeleteButton from '../reusable/DeleteButton';
-import requireAuth from '../reusable/requireAuth';
-// import AddTitle from '../titles/AddTitle';
-import baseStyle from '../../style/baseStyle';
-import Arrow from '../../assets/images/right-arrow.svg';
 
-const Tier = ({
-  tier,
-  titles,
-  fetchTitles,
-  authorized,
-  band,
-  tiers,
-  editTier,
-  deleteTier,
-  setOrder,
-}) => {
-  const [expand, setExpand] = useState(false);
+import ParentDetail from '../reusable/ParentDetail';
+
+const Tier = ({ tier, titles, fetchTitles, setOrder }) => {
   const [titlesToRender, setTitlesToRender] = useState(null);
   const [orderedTitles, setOrderedTitles] = useState({});
 
@@ -58,25 +29,6 @@ const Tier = ({
       return;
     });
   }, [titles, tier.trackList]);
-
-  // useEffect(() => {
-  //   if (expand) {
-  //     const sortable = new Sortable(
-  //       document.querySelectorAll('.title-container'),
-  //       {
-  //         draggable: '.title-margin',
-  //         classes: {
-  //           'draggable:over': ['empty-title'],
-  //           mirror: ['hidden'],
-  //           'source:dragging': ['title-enlarged'],
-  //         },
-  //       }
-  //     );
-  //     sortable.on('drag:over', (e) => {
-  //       console.log(e.over);
-  //     });
-  //   }
-  // }, [expand]);
 
   const findLatest = (title, bounce) => {
     setOrderedTitles(state => {
@@ -129,11 +81,10 @@ const Tier = ({
   );
 
   const renderTitles = () => {
-    const titleList = orderTitles(titlesToRender);
-
+    const titlesList = orderTitles(titlesToRender);
     return (
       <FlatList
-        data={titleList}
+        data={titlesList}
         renderItem={({ item }) => {
           return <Title title={item} tier={tier} findLatest={findLatest} />;
         }}
@@ -142,193 +93,79 @@ const Tier = ({
     );
   };
 
-  // const renderAddButton = () => {
-  //   if (authorized) {
-  //     return (
-  //       <div className="order-by">
-  //         <div>Add a Title to this Tier</div>
-  //         <AddTitle tier={tier} onSubmit={() => setExpand(true)} />
-  //       </div>
-  //     );
-  //   }
-  // };
+  const renderOrderButton = () => {
+    let nameButton, dateButton;
+    const getLabel = type => (type === 'date' ? 'Date' : 'ABC');
 
-  // const renderEditButton = () => {
-  //   if (authorized) {
-  //     const tierList = band.tiers
-  //       .map((id) => tiers[id])
-  //       .sort((a, b) => (a.position < b.position ? -1 : 1))
-  //       .map((t) => {
-  //         if (t) {
-  //           return { value: t.position, display: t.position };
-  //         }
-  //         return null;
-  //       });
+    const activeButton = type => {
+      return (
+        <View style={[styles.orderButton, styles.active]}>
+          <Text>{getLabel(type)}</Text>
+        </View>
+      );
+    };
 
-  //     return (
-  //       <AddButton
-  //         title={`Edit ${tier.name}`}
-  //         image="images/edit.png"
-  //         fields={[
-  //           {
-  //             label: 'Tier Name',
-  //             name: 'name',
-  //             type: 'input',
-  //             required: true,
-  //           },
-  //           {
-  //             label: 'Tier Position',
-  //             name: 'position',
-  //             type: 'select',
-  //             options: tierList,
-  //           },
-  //         ]}
-  //         onSubmit={(formValues) => editTier(formValues, tier.id)}
-  //         initialValues={{ name: tier.name, position: tier.position }}
-  //         form={`edit-tier-${tier.id}`}
-  //         enableReinitialize={true}
-  //       />
-  //     );
-  //   }
-  // };
-
-  // const renderDeleteButton = () => {
-  //   if (authorized) {
-  //     return (
-  //       <DeleteButton
-  //         onSubmit={() => deleteTier(tier.id)}
-  //         displayName={tier.name}
-  //       />
-  //     );
-  //   }
-  // };
-
-  const renderTotalTime = () => {
-    if (titlesToRender) {
-      const total = titlesToRender.reduce((prev, cur) => {
-        return prev + cur.selectedBounce?.duration;
-      }, 0);
-
-      if (!total) {
-        return null;
-      }
-
-      const minutes = Math.floor(total / 60);
-      const seconds =
-        Math.floor(total % 60) < 10
-          ? '0' + Math.floor(total % 60)
-          : Math.floor(total % 60);
-      return <Text>{`${minutes}:${seconds}`}</Text>;
-    }
-  };
-
-  // const renderOrderButton = () => {
-  //   if (!tier.orderBy || tier.orderBy === 'date') {
-  //     return (
-  //       <div className="order-by">
-  //         <div>Order titles by: </div>
-  //         <div
-  //           className="order-button order-active"
-  //           onClick={(e) => e.stopPropagation()}
-  //         >
-  //           Date
-  //         </div>
-  //         <div
-  //           className="order-button"
-  //           onClick={(e) => {
-  //             e.stopPropagation();
-  //             setOrder(tier.id, 'name');
-  //           }}
-  //         >
-  //           ABC
-  //         </div>
-  //       </div>
-  //     );
-  //   }
-
-  //   if (tier.orderBy === 'name') {
-  //     return (
-  //       <div className="order-by">
-  //         <div>Order titles by:</div>
-  //         <div
-  //           className="order-button"
-  //           onClick={(e) => {
-  //             e.stopPropagation();
-  //             setOrder(tier.id, 'date');
-  //           }}
-  //         >
-  //           Date
-  //         </div>
-  //         <div
-  //           className="order-button order-active"
-  //           onClick={(e) => e.stopPropagation()}
-  //         >
-  //           ABC
-  //         </div>
-  //       </div>
-  //     );
-  //   }
-  // };
-
-  // const renderOptions = () => {
-  //   return (
-  //     <>
-  //       {renderAddButton()}
-  //       {renderOrderButton()}
-  //     </>
-  //   );
-  // };
-
-  const arrow = expand ? styles.arrowRotated : {};
-  const open = expand ? 'open' : 'closed';
-
-  const renderTier = () => {
-    return (
-      <>
+    const inActiveButton = type => {
+      return (
         <Pressable
-          style={[baseStyle.marqee, baseStyle.tier]}
-          onPress={() => setExpand(state => !state)}
+          style={styles.orderButton}
+          onPress={() => {
+            setOrder(tier.id, type);
+          }}
         >
-          <View style={[styles.tierName]}>
-            <Arrow style={arrow} />
-            <Text style={baseStyle.h2}>{tier.name}</Text>
-          </View>
-          <View style={[styles.tierCount]}>
-            <Text style={baseStyle.text}>{tier.trackList.length} songs</Text>
-            <Text style={baseStyle.text}>{renderTotalTime()}</Text>
-          </View>
-          <View style={styles.tierDisplay}>
-            {/* {renderEditButton()}
-              {renderDeleteButton()} */}
-          </View>
+          <Text style={styles.orderText}>{getLabel(type)}</Text>
         </Pressable>
-        {/* <View style={styles.tierOptions}>{expand && renderOptions()}</View> */}
-        <View>{expand && titlesToRender && renderTitles()}</View>
-      </>
+      );
+    };
+
+    if (!tier.orderBy || tier.orderBy === 'date') {
+      dateButton = activeButton('date');
+      nameButton = inActiveButton('name');
+    }
+    if (tier.orderBy === 'name') {
+      nameButton = activeButton('name');
+      dateButton = inActiveButton('date');
+    }
+    return (
+      <View style={styles.orderBy}>
+        <Text style={styles.orderText}>Order titles by: </Text>
+        {dateButton}
+        {nameButton}
+      </View>
     );
   };
 
-  // check auth status to render draggable tiers
-  return renderTier();
+  return (
+    <ParentDetail
+      item={tier}
+      childList={titlesToRender}
+      showChildren={renderTitles}
+      options={renderOrderButton}
+    />
+  );
 };
 
 const styles = StyleSheet.create({
-  tierCount: {
-    width: '35%',
+  orderBy: {
     flexDirection: 'row',
-  },
-  tierDisplay: {
-    justifyContent: 'space-between',
     alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingVertical: 5,
+    paddingLeft: 20,
   },
-  tierOptions: {},
-  tierName: {
-    width: '55%',
-    flexDirection: 'row',
+  orderButton: {
+    borderColor: 'rgb(212, 179, 255)',
+    borderWidth: 1,
+    borderRadius: 50,
+    paddingVertical: 2,
+    paddingHorizontal: 5,
+    marginLeft: 8,
   },
-  arrowRotated: {
-    transition: 'all 0.2s',
-    transform: [{ rotate: '90deg' }],
+  active: {
+    backgroundColor: 'rgb(212, 179, 255)',
+  },
+  orderText: {
+    color: 'white',
   },
 });
 
@@ -343,7 +180,5 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   createTier,
   fetchTitles,
-  editTier,
-  deleteTier,
   setOrder,
-})(requireAuth(Tier));
+})(Tier);

@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 
-import { queueSongs, queuePlaylistSongs, playAudio } from '../../actions';
-import { spinner } from '../reusable/Spinner';
+import { queueSongs, playAudio } from '../../actions';
 import PlayButton from '../../assets/images/play.svg';
-import baseStyle from '../../style/baseStyle';
 
 const PlayContainer = ({ song, queueSongs }) => {
-  const [loaded, setLoaded] = useState(false);
-
   const displayDate = date => {
     return moment.utc(date).format('MM/DD/YY');
   };
@@ -25,7 +21,7 @@ const PlayContainer = ({ song, queueSongs }) => {
   };
 
   const onPlay = () => {
-    queueSongs(song.title.id, song.parent);
+    queueSongs(song);
   };
 
   return (
@@ -33,7 +29,6 @@ const PlayContainer = ({ song, queueSongs }) => {
       <Text style={styles.playContainerTime}>
         {displayTime(song.bounce.duration)}
       </Text>
-      {/* {!loaded && spinner()} */}
       <Pressable onPress={onPlay}>
         <PlayButton style={styles.playButton} />
       </Pressable>
@@ -51,7 +46,7 @@ const styles = StyleSheet.create({
   playContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 37,
+    marginLeft: 35,
   },
   playContainerTime: {
     fontSize: 15,
@@ -71,6 +66,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, { queueSongs, queuePlaylistSongs, playAudio })(
-  PlayContainer,
-);
+export default connect(null, { queueSongs, playAudio })(PlayContainer);

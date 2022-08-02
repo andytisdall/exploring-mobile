@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
@@ -40,21 +40,9 @@ const Audio = ({
 
   const events = [Event.PlaybackState, Event.PlaybackError];
 
-  // const syncronizeCurrentSong = async () => {
-  //   const queue = await TrackPlayer.getQueue();
-  //   const i = await TrackPlayer.getCurrentTrack();
-  //   if (!currentSong || currentSong.id !== queue[i].id) {
-  //     setCurrentSong(queue[i]);
-  //   }
-  // };
-
   useEffect(() => {
     syncAudioState();
   }, [song, syncAudioState]);
-
-  // useEffect(() => {
-  //   syncronizeCurrentSong();
-  // }, [position]);
 
   useTrackPlayerEvents(events, async event => {
     syncAudioState();
@@ -66,18 +54,18 @@ const Audio = ({
     if (event.type === Event.PlaybackState) {
       setPlayerState(event.state);
     }
-    if (event.type === Event.PlaybackTrackChanged) {
-      // syncAudioState();
-    }
   });
 
-  const formatTime = time => {
+  const formatTime = useCallback(time => {
+    if (time < 0) {
+      return '00:00';
+    }
     let minutes =
       time < 600 ? `0${Math.floor(time / 60)}` : Math.floor(time / 60);
     let seconds =
       time % 60 < 10 ? `0${Math.floor(time % 60)}` : Math.floor(time % 60);
     return `${minutes}:${seconds}`;
-  };
+  }, []);
 
   const displayDate = date => {
     return moment.utc(date).format('MM/DD/yy');
@@ -188,6 +176,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: '100%',
     paddingTop: 7,
+    position: 'static',
+    zIndex: 100,
   },
   playbarHeader: {
     paddingHorizontal: 10,

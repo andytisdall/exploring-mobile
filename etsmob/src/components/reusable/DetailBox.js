@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
-import moment from 'moment';
+import React, { useState, useRef } from 'react';
 import { Text, View, StyleSheet, Pressable } from 'react-native';
 
 import baseStyle from '../../style/baseStyle';
@@ -10,39 +9,13 @@ const DetailBox = ({
   itemType,
   displayItem,
   setSelected,
-  renderAddButton,
-  renderEditButton,
-  renderDeleteButton,
   playButton,
-  onAddSubmit,
-  authorized,
 }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [droppingFile, setDroppingFile] = useState(false);
 
   const dropdownRef = useRef(null);
 
-  // useEffect(() => {
-  //   const onBodyClick = (e) => {
-  //     if (dropdownRef.current && dropdownRef.current.contains(e.target)) {
-  //       return;
-  //     }
-
-  //     if (dropdownVisible) {
-  //       setDropdownVisible(false);
-  //     }
-  //   };
-
-  //   if (dropdownVisible) {
-  //     document.addEventListener('click', onBodyClick, { capture: true });
-  //   } else {
-  //     document.removeEventListener('click', onBodyClick, { capture: true });
-  //   }
-  //   return () =>
-  //     document.removeEventListener('click', onBodyClick, { capture: true });
-  // }, [dropdownVisible]);
-
-  const count = () => {
+  const showCount = () => {
     let count;
     if (itemList().length === 0) {
       count = `1 ${itemType}:`;
@@ -61,7 +34,7 @@ const DetailBox = ({
 
   const renderItemList = () => {
     if (dropdownVisible) {
-      return itemList().map((i) => {
+      return itemList().map(i => {
         const current =
           i.current || i.latest ? (
             <Text style={styles.listCurrent}> * current</Text>
@@ -100,7 +73,7 @@ const DetailBox = ({
     if (selectedItem) {
       return (
         <View style={styles.detailContainer}>
-          <View style={styles.detailHeader}>{count()}</View>
+          <View style={styles.detailHeader}>{showCount()}</View>
           <View style={styles.dropdownContainer}>
             <View style={styles.dropdown} ref={dropdownRef}>
               <Pressable onPress={() => setDropdownVisible(!dropdownVisible)}>

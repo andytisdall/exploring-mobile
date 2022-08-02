@@ -48,6 +48,7 @@ export default StyleSheet.create({
     fontSize: 13,
     color: 'rgb(212, 234, 255)',
     marginRight: 10,
+    // fontFamily: 'sans-serif',
   },
   redBorder: {
     borderColor: 'red',

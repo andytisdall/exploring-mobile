@@ -2,20 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import _ from 'lodash';
-import { Text, View, StyleSheet, Pressable } from 'react-native';
+import { StyleSheet, Pressable } from 'react-native';
 
 // import AddButton from '../reusable/AddButton';
 // import DeleteButton from '../reusable/DeleteButton';
-import requireAuth from '../reusable/requireAuth';
 import DetailBox from '../reusable/DetailBox';
-import {
-  selectBounce,
-  createBounce,
-  editBounce,
-  deleteBounce,
-  queueSongs,
-  fetchBounces,
-} from '../../actions';
+import { selectBounce, queueSongs, fetchBounces } from '../../actions';
 import PlayButton from '../../assets/images/play.svg';
 
 // const track = {
@@ -28,17 +20,12 @@ const Bounce = ({
   bounces,
   selectBounce,
   title,
-  authorized,
   version,
-  createBounce,
-  editBounce,
-  deleteBounce,
   song,
   queueSongs,
   fetchBounces,
 }) => {
   const [selectedBounce, setSelectedBounce] = useState(title.selectedBounce);
-  const [uploadActive, setUploadActive] = useState(false);
   const [bounceList, setBounceList] = useState(null);
 
   useEffect(() => {
@@ -53,13 +40,14 @@ const Bounce = ({
     ) {
       selectBounce(selectedBounce, title.id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBounce, selectBounce, title.id]);
 
   useEffect(() => {
     if (selectedBounce !== title.selectedBounce) {
       setSelectedBounce(title.selectedBounce);
-      setUploadActive(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [title, title.selectedBounce]);
 
   useEffect(() => {
@@ -78,19 +66,8 @@ const Bounce = ({
         bounceToSelect = bounceList[0];
       }
       setSelectedBounce(bounceToSelect);
-
-      //edit title is for migrating tiles that didnt have
-      // a selected version and bounce in the db
-      // editTitle(
-      //   {
-      //     ...title,
-      //     selectedBounce: bounceToSelect.id,
-      //     selectedVersion: version.id,
-      //   },
-      //   title.id,
-      //   tier.id
-      // );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bounceList, selectedBounce]);
 
   const displayDate = date => {
@@ -109,125 +86,9 @@ const Bounce = ({
     }
   };
 
-  const onAddSubmit = formValues => {
-    createBounce(formValues, version.id, title.id);
-    setUploadActive(true);
-  };
-
-  const onEditSubmit = formValues => {
-    editBounce(formValues, selectedBounce.id, version.id);
-    if (formValues.file) {
-      setUploadActive(true);
-    }
-  };
-
-  // const uploadContent = () => {
-  //   return (
-  //     <div className="upload-image">
-  //       <p>Uploading...</p>
-  //       <img
-  //         className="windmill"
-  //         src="/images/windmill.gif"
-  //         alt="upload in progress"
-  //       />
-  //     </div>
-  //   );
-  // };
-
-  // const renderAddButton = () => {
-  //   if (authorized) {
-  //     return (
-  //       <AddButton
-  //         title={`Add a Bounce of ${version.name}`}
-  //         image="images/add.png"
-  //         fields={[
-  //           {
-  //             label: 'File',
-  //             name: 'file',
-  //             type: 'file',
-  //             required: true,
-  //           },
-  //           {
-  //             label: 'Date',
-  //             name: 'date',
-  //             type: 'date',
-  //             required: true,
-  //           },
-  //           {
-  //             label: 'Comments',
-  //             name: 'comments',
-  //             type: 'textarea',
-  //           },
-  //           {
-  //             label: 'Latest Bounce?',
-  //             name: 'latest',
-  //             type: 'checkbox',
-  //           },
-  //         ]}
-  //         onSubmit={(formValues) => onAddSubmit(formValues)}
-  //         form={`add-bounce-${version.id}`}
-  //         initialValues={{ latest: true }}
-  //         addClass="add-bounce"
-  //       />
-  //     );
-  //   }
-  // };
-
-  // const renderEditButton = () => {
-  //   if (authorized) {
-  //     return (
-  //       <AddButton
-  //         title={'Edit this Bounce'}
-  //         image="images/edit.png"
-  //         fields={[
-  //           {
-  //             label: 'File',
-  //             name: 'file',
-  //             type: 'file',
-  //           },
-  //           {
-  //             label: 'Date',
-  //             name: 'date',
-  //             type: 'date',
-  //           },
-  //           {
-  //             label: 'Comments',
-  //             name: 'comments',
-  //             type: 'textarea',
-  //           },
-  //           {
-  //             label: 'Current Bounce?',
-  //             name: 'latest',
-  //             type: 'checkbox',
-  //           },
-  //         ]}
-  //         onSubmit={onEditSubmit}
-  //         initialValues={{
-  //           ..._.pick(selectedBounce, 'comments', 'latest'),
-  //           date: moment.utc(selectedBounce.date).format('YYYY-MM-DD'),
-  //         }}
-  //         form={`edit-bounce-${title.id}`}
-  //         enableReinitialize={true}
-  //         addClass="add-bounce"
-  //       />
-  //     );
-  //   }
-  // };
-
-  // const renderDeleteButton = () => {
-  //   if (authorized) {
-  //     return (
-  //       <DeleteButton
-  //         onSubmit={() => deleteBounce(selectedBounce.id, version.id, title.id)}
-  //         displayName={displayDate(selectedBounce.date)}
-  //       />
-  //     );
-  //   }
-  // };
-
   const showPlayButton = () => {
     return (
-      <Pressable onPress={() => queueSongs(song.title.id, song.parent)}>
+      <Pressable onPress={() => queueSongs(song)}>
         <PlayButton style={styles.playButton} />
       </Pressable>
     );
@@ -242,12 +103,7 @@ const Bounce = ({
           itemList={itemList}
           displayItem={displayBounce}
           setSelected={setSelectedBounce}
-          // renderAddButton={renderAddButton}
-          // renderEditButton={renderEditButton}
-          // renderDeleteButton={renderDeleteButton}
           playButton={showPlayButton}
-          // onAddSubmit={onAddSubmit}
-          authorized={authorized}
         />
       </>
     );
@@ -271,9 +127,6 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {
   selectBounce,
-  createBounce,
-  editBounce,
-  deleteBounce,
   queueSongs,
   fetchBounces,
-})(requireAuth(Bounce));
+})(Bounce);

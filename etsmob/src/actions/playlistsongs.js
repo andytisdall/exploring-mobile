@@ -7,34 +7,35 @@ import {
 import greenhouse from '../apis/greenhouse';
 import { errorHandler } from './errors';
 
-export const fetchPlaylistSongs = (playlistId) => async (dispatch) => {
+export const fetchPlaylistSongs = playlistId => async dispatch => {
   try {
-    const response = await greenhouse.get(`/playlistsongs/${playlistId}`);
+    const response = await greenhouse.get(
+      `/playlistsongs/populate/${playlistId}`,
+    );
     dispatch({ type: FETCH_PLAYLISTSONGS, payload: response.data });
   } catch (err) {
     dispatch(errorHandler(err));
   }
 };
 
-export const createPlaylistSong =
-  (formValues) => async (dispatch, getState) => {
-    try {
-      const { currentBand } = getState().bands;
-      const response = await greenhouse.post('/playlistsongs', {
-        ...formValues,
-        currentBand: currentBand.id,
-      });
-      dispatch({
-        type: CREATE_PLAYLISTSONG,
-        payload: {
-          playlistsong: response.data,
-          playlist: formValues.playlistId,
-        },
-      });
-    } catch (err) {
-      dispatch(errorHandler(err));
-    }
-  };
+export const createPlaylistSong = formValues => async (dispatch, getState) => {
+  try {
+    const { currentBand } = getState().bands;
+    const response = await greenhouse.post('/playlistsongs', {
+      ...formValues,
+      currentBand: currentBand.id,
+    });
+    dispatch({
+      type: CREATE_PLAYLISTSONG,
+      payload: {
+        playlistsong: response.data,
+        playlist: formValues.playlistId,
+      },
+    });
+  } catch (err) {
+    dispatch(errorHandler(err));
+  }
+};
 
 export const editPlaylistSong =
   (formValues, playlistSongId) => async (dispatch, getState) => {
@@ -65,7 +66,7 @@ export const editPlaylistSong =
       }
       const response = await greenhouse.patch(
         `/playlistsongs/${playlistSongId}`,
-        { ...formValues, currentBand: currentBand.id }
+        { ...formValues, currentBand: currentBand.id },
       );
       dispatch({
         type: EDIT_PLAYLISTSONG,

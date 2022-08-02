@@ -1,34 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  FlatList,
-  SafeAreaView,
-} from 'react-native';
+import { View, Text, StyleSheet, FlatList, SafeAreaView } from 'react-native';
 
 import {
   fetchTiers,
   fetchPlaylists,
-  createTier,
-  createPlaylist,
-  editTier,
-  editPlaylist,
   fetchBand,
   initializeAudio,
 } from '../../actions';
 import Tier from '../tiers/Tier';
-// import Playlist from '../playlists/Playlist';
-// import AddButton from '../reusable/AddButton';
-import requireAuth from '../reusable/requireAuth';
-// import AddTier from '../tiers/AddTier';
+import Playlist from '../playlists/Playlist';
 import baseStyle from '../../style/baseStyle';
-// import DragContainer from './DragContainer';
 import Audio from '../audio/Audio';
 import Error from './Error';
-import TrackPlayer from 'react-native-track-player';
 
 const BodyContainer = ({
   fetchPlaylists,
@@ -36,13 +20,6 @@ const BodyContainer = ({
   tiers,
   playlists,
   band,
-  authorized,
-  createPlaylist,
-  currentSong,
-  handleUpdate,
-  user,
-  editTier,
-  editPlaylist,
   fetchBand,
   route,
   initializeAudio,
@@ -69,10 +46,6 @@ const BodyContainer = ({
       fetchPlaylists(band.id);
     }
   }, [band, fetchTiers, fetchPlaylists]);
-
-  useEffect(() => {
-    handleUpdate();
-  }, [user, handleUpdate]);
 
   useEffect(() => {
     if (band) {
@@ -121,60 +94,22 @@ const BodyContainer = ({
     );
   };
 
-  // const renderTierAddButton = () => {
-  //   if (authorized) {
-  //     return <AddTier />;
-  //   }
-  // };
-
-  // const renderPlaylistAddButton = () => {
-  //   if (authorized) {
-  //     return (
-  //       <AddButton
-  //         onSubmit={(formValues) => createPlaylist(formValues)}
-  //         title="Add a Playlist"
-  //         image="/images/add.png"
-  //         fields={[
-  //           {
-  //             label: 'Playlist Name',
-  //             name: 'playlistName',
-  //             type: 'input',
-  //             required: true,
-  //           },
-  //         ]}
-  //         addClass="add-left"
-  //       />
-  //     );
-  //   }
-  // };
-
-  // const renderPlaylists = () => {
-  //   const renderedPlaylists = playlistList.map((playlist) => {
-  //     if (playlist) {
-  //       return <Playlist playlist={playlist} key={playlist.id} />;
-  //     }
-  //     return null;
-  //   });
-
-  //   if (authorized) {
-  //     return (
-  //       <DragContainer listType="playlists" action={editPlaylist}>
-  //         {renderedPlaylists}
-  //       </DragContainer>
-  //     );
-  //   } else {
-  //     return renderedPlaylists;
-  //   }
-  // };
-
-  const playbarActive = currentSong ? 'playbar-active' : '';
+  const renderPlaylists = () => {
+    const playlistsToRender = playlistList.filter(pl => pl);
+    return (
+      <FlatList
+        data={playlistsToRender}
+        renderItem={({ item }) => <Playlist playlist={item} />}
+        keyExtractor={pl => pl.id}
+      />
+    );
+  };
 
   const renderSection = ({ item }) => {
     return (
       <>
         <View style={styles.sectionHeader}>
           <Text style={[baseStyle.h2, styles.sectionTitle]}>{item.name}</Text>
-          {/* <div className="section-add">{renderTierAddButton()}</div> */}
         </View>
         {item.render()}
       </>
@@ -182,59 +117,36 @@ const BodyContainer = ({
   };
 
   const showContent = () => {
-    if (!band) {
+    if (band) {
       return (
-        <View style={styles.noBand}>
-          <Text>No Band!</Text>
-        </View>
+        <>
+          <Error />
+          <FlatList
+            data={sections}
+            renderItem={renderSection}
+            keyExtractor={section => section.name}
+            contentContainerStyle={styles.listStyle}
+          />
+          <Audio />
+        </>
       );
     }
-    if (band.id === 404) {
-      return (
-        <View className="no-band">
-          <h1>
-            This band does not exist on Exploring the Space, but you can create
-            it.
-          </h1>
-          <View className="home-buttons">
-            {/* <Link to="/">Home</Link>
-            <Link to="/help">What Is It?</Link> */}
-          </View>
-        </View>
-      );
-    }
-
-    return (
-      <>
-        <Audio />
-        <FlatList
-          data={sections}
-          renderItem={renderSection}
-          keyExtractor={section => section.name}
-          contentContainerStyle={styles.listStyle}
-        />
-        <Error />
-        {/* <div className="playlists">
-      <div className="section-header">
-        <h2 className="section-title">Playlists</h2>
-        <div className="section-add">{renderPlaylistAddButton()}</div>
-      </div>
-      <hr />
-       {playlists && renderPlaylists()} */}
-      </>
-    );
   };
 
-  const sections = [{ name: 'Tiers', render: renderTiers }];
+  const sections = [
+    { name: 'Tiers', render: renderTiers },
+    { name: 'Playlists', render: renderPlaylists },
+  ];
 
   return (
-    <View style={[styles.main, baseStyle.background]}>{showContent()}</View>
+    <SafeAreaView style={[styles.main, baseStyle.background]}>
+      {showContent()}
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   main: {
-    paddingHorizontal: 8,
     height: '100%',
   },
   sectionHeader: {
@@ -245,9 +157,11 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 30,
     paddingBottom: 5,
+    color: 'rgb(82, 236, 236)',
   },
   listStyle: {
-    paddingBottom: 200,
+    paddingHorizontal: 8,
+    paddingBottom: 100,
   },
   noBand: {
     height: '100%',
@@ -258,8 +172,6 @@ const mapStateToProps = state => {
   return {
     tiers: state.tiers,
     playlists: state.playlists,
-    currentSong: state.audio.currentSong,
-    user: state.auth.user,
     band: state.bands.currentBand,
   };
 };
@@ -267,10 +179,6 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   fetchTiers,
   fetchPlaylists,
-  createTier,
-  createPlaylist,
-  editTier,
-  editPlaylist,
   fetchBand,
   initializeAudio,
-})(requireAuth(BodyContainer));
+})(BodyContainer);

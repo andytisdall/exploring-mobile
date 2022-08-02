@@ -2,9 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 
-import { fetchBands, fetchBand, pauseAudio } from '../../actions';
+import { fetchBands, fetchBand } from '../../actions';
 import baseStyle from '../../style/baseStyle';
-import TrackPlayer from 'react-native-track-player';
 
 class Home extends React.Component {
   componentDidMount() {
@@ -67,10 +66,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     bands: state.bands,
-    audio: state.audio,
   };
 };
 
-export default connect(mapStateToProps, { fetchBands, fetchBand, pauseAudio })(
-  Home,
-);
+export default connect(mapStateToProps, { fetchBands, fetchBand })(Home);

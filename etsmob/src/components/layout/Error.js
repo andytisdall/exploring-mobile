@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Text, StyleSheet, Pressable } from 'react-native';
 
@@ -21,6 +21,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(238, 31, 31)',
     height: 25,
     alignItems: 'center',
+    position: 'absolute',
+    zIndex: 100,
   },
   text: {
     color: 'white',

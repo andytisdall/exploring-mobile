@@ -32,12 +32,13 @@ export const pauseAudio = () => {
   return { type: PAUSE_AUDIO };
 };
 
-const orderTitles = (tier, state) => {
+const orderTitles = (tierId, state) => {
+  const tier = state.tiers[tierId];
   const titleList = tier.trackList
     .map(id => state.titles[id])
     .filter(title => title && title.selectedBounce);
 
-  if (tier.orderBy === 'date' || !tier.orderyBy) {
+  if (tier.orderBy === 'date' || !tier.orderBy) {
     return titleList.sort((a, b) => {
       if (new Date(a.selectedBounce.date) > new Date(b.selectedBounce.date)) {
         return -1;
@@ -72,11 +73,16 @@ const updateQueue = (action, state, currentSong = null) => {
 
   // parent is tier
   if (parent.trackList) {
-    const allTitles = orderTitles(parent, state);
+    const allTitles = orderTitles(parent.id, state);
 
     const currentIndex = allTitles.findIndex(
-      title => title.title === currentSong.title || title.id === currentSong.id,
+      title =>
+        title.title === currentSong.title || title.id === currentSong.title.id,
     );
+
+    if (currentIndex + increment < 0) {
+      return [];
+    }
 
     const queue = allTitles.slice(currentIndex + increment);
 
@@ -102,19 +108,21 @@ const updateQueue = (action, state, currentSong = null) => {
       .filter(song => song.bounce)
       .sort((a, b) => (a.position < b.position ? -1 : 1));
 
+    if (currentSong.position + (increment - 1) < 0) {
+      return [];
+    }
+
     const queue = allSongs.slice(currentSong.position + (increment - 1));
 
-    return queue.map(song => {
-      const version = state.versions[song.version];
-      const bounce = state.bounces[song.bounce];
+    return queue.map((song, i) => {
       const title = state.titles[song.title];
 
       return {
         title: title.title,
-        version: version.name,
-        date: bounce.date,
-        duration: bounce.duration,
-        audio: bounce.id,
+        version: song.version.name,
+        date: song.bounce.date,
+        duration: song.bounce.duration,
+        audio: song.bounce.id,
         position: song.position,
         parent,
       };
@@ -122,11 +130,10 @@ const updateQueue = (action, state, currentSong = null) => {
   }
 };
 
-export const queueSongs = (id, parent) => async (dispatch, getState) => {
+export const queueSongs = song => async (dispatch, getState) => {
   const state = getState();
-  const newSong = { id, parent };
 
-  const queue = updateQueue('new', state, newSong);
+  const queue = updateQueue('new', state, song);
   const convertedQueue = convertForPlayer(queue, state);
 
   TrackPlayer.removeUpcomingTracks();
@@ -149,50 +156,32 @@ export const queueSongs = (id, parent) => async (dispatch, getState) => {
 
   dispatch({
     type: QUEUE_SONGS,
-    payload: { song: convertedQueue[0], parent },
+    payload: { song: convertedQueue[0], parent: song.parent },
   });
 };
 
-export const nextSong = () => async (dispatch, getState) => {
-  const state = getState();
-  const newQueue = updateQueue('next', state);
+const getQueueAndPlay = async (action, dispatch, state) => {
+  const newQueue = updateQueue(action, state);
 
   if (!newQueue.length) {
     return dispatch(initializeAudio());
   }
 
-  // console.log(newQueue.map((t) => t.title));
-
   const convertedQueue = convertForPlayer(newQueue, state);
 
   TrackPlayer.removeUpcomingTracks();
   await TrackPlayer.add(convertedQueue);
-
   await TrackPlayer.skipToNext();
 
-  if (convertedQueue[0]) {
-    dispatch({ type: NEXT_SONG, payload: convertedQueue[0] });
-  } else {
-    dispatch(initializeAudio());
-  }
+  dispatch({ type: NEXT_SONG, payload: convertedQueue[0] });
 };
 
-export const prevSong = () => async (dispatch, getState) => {
-  const state = getState();
-  const newQueue = updateQueue('prev', state);
+export const nextSong = () => (dispatch, getState) => {
+  getQueueAndPlay('next', dispatch, getState());
+};
 
-  const convertedQueue = convertForPlayer(newQueue, state);
-
-  TrackPlayer.removeUpcomingTracks();
-  await TrackPlayer.add(convertedQueue);
-
-  await TrackPlayer.skipToNext();
-
-  if (newQueue[0]) {
-    dispatch({ type: NEXT_SONG, payload: convertedQueue[0] });
-  } else {
-    dispatch(initializeAudio());
-  }
+export const prevSong = () => (dispatch, getState) => {
+  getQueueAndPlay('prev', dispatch, getState());
 };
 
 export const changeVolume = value => {
@@ -212,7 +201,7 @@ export const syncAudioState = () => async dispatch => {
   if (i !== null) {
     currentTrack = queue[i];
   }
-  // console.log(currentTrack);
+
   const playerState = await TrackPlayer.getState();
   dispatch({ type: SYNC_AUDIO, payload: { currentTrack, playerState } });
 };

@@ -21,7 +21,7 @@ const tiersReducer = (state = {}, action) => {
       if (oldTier.orderBy) {
         action.payload.orderBy = oldTier.orderBy;
       }
-      const oldPosition = oldTier['position'];
+      const oldPosition = oldTier.position;
       const newPosition = action.payload.position;
       let changedPositions = {};
       if (oldPosition > newPosition) {
@@ -47,16 +47,17 @@ const tiersReducer = (state = {}, action) => {
       };
     case DELETE_TIER:
       const changePosition = Object.values(
-        _.omit(state, state.currentBand)
-      ).filter((t) => t.position > action.payload.position);
-      changePosition.forEach((tier) => {
+        _.omit(state, state.currentBand),
+      ).filter(t => t.position > action.payload.position);
+      changePosition.forEach(tier => {
         tier.position = tier.position - 1;
       });
       delete state[action.payload.id];
       return { ...state, ..._.mapKeys(changePosition, 'id') };
     case ORDER_TIER:
-      state[action.payload.tier].orderBy = action.payload.orderBy;
-      return { ...state };
+      const tierToOrder = state[action.payload.tier];
+      tierToOrder.orderBy = action.payload.orderBy;
+      return { ...state, [action.payload.tier]: { ...tierToOrder } };
     case CREATE_TITLE:
       const addToTier = state[action.payload.tier];
       addToTier.trackList.push(action.payload.title.id);
@@ -65,11 +66,11 @@ const tiersReducer = (state = {}, action) => {
       if (action.payload.tier.new) {
         const newTier = state[action.payload.tier.new];
         newTier.trackList.push(action.payload.title.id);
-        const oldTier = state[action.payload.tier.old];
-        oldTier.trackList = oldTier.trackList.filter(
-          (id) => id !== action.payload.title.id
+        const staleTier = state[action.payload.tier.old];
+        staleTier.trackList = oldTier.trackList.filter(
+          id => id !== action.payload.title.id,
         );
-        return { ...state, [newTier.id]: newTier, [oldTier.id]: oldTier };
+        return { ...state, [newTier.id]: newTier, [staleTier.id]: staleTier };
       } else {
         return state;
       }
@@ -77,7 +78,7 @@ const tiersReducer = (state = {}, action) => {
       const deleteFromTier = state[action.payload.tier];
       if (deleteFromTier) {
         const newTrackList = deleteFromTier.trackList.filter(
-          (id) => id !== action.payload.title.id
+          id => id !== action.payload.title.id,
         );
         deleteFromTier.trackList = newTrackList;
         return { ...state, [deleteFromTier.id]: deleteFromTier };
