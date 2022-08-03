@@ -188,6 +188,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     letterSpacing: 1,
     textAlign: 'center',
+    fontFamily: 'Fira Sans',
   },
   playbarMain: {
     flexDirection: 'row',
@@ -232,6 +233,7 @@ const styles = StyleSheet.create({
   playsliderTime: {
     fontSize: 15,
     marginLeft: 10,
+    fontFamily: 'Fira Sans',
   },
   slider: {
     height: 40,

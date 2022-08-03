@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Text, View, StyleSheet, Image, Pressable } from 'react-native';
+import { Text, View, StyleSheet, Pressable } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Version from '../versions/Version';
-// import AddButton from '../reusable/AddButton';
 import {
   fetchVersions,
   fetchBounces,
@@ -12,9 +11,8 @@ import {
   selectVersion,
 } from '../../actions';
 import PlayContainer from '../reusable/PlayContainer';
-
+import { regularColors, currentSongColors } from '../../style/gradientColors';
 import baseStyle from '../../style/baseStyle';
-// import DeleteButton from '../reusable/DeleteButton';
 import Arrow from '../../assets/images/right-arrow.svg';
 
 const Title = ({
@@ -108,21 +106,6 @@ const Title = ({
 
   const current = audio.currentSong ? audio.currentSong.audio : null;
   const parent = audio.parent ? audio.parent.id : null;
-
-  const regularColors = [
-    'rgba(233, 255, 255, 0.479)',
-    'rgba(213, 247, 255, 0.616)',
-    'rgb(181, 188, 255)',
-    'rgba(168, 209, 255, 0.781)',
-    'rgba(210, 255, 210, 0)',
-  ];
-  const currentSongColors = [
-    'rgba(255, 233, 233, 0.479)',
-    'rgba(255, 218, 183, 0.616)',
-    'rgb(244, 255, 83)',
-    'rgba(255, 240, 108, 0.781)',
-    'rgba(255, 243, 210, 0)',
-  ];
 
   let colors = regularColors;
 

@@ -15,19 +15,23 @@ export default StyleSheet.create({
     fontSize: 33,
     margin: 10,
     color: 'white',
+    fontFamily: 'Fira Sans',
   },
   h2: {
     fontSize: 25,
     color: 'rgb(227, 210, 255)',
+    fontFamily: 'Fira Sans',
   },
   h3: {
     fontSize: 20,
     paddingVertical: 5,
+    fontFamily: 'Fira Sans',
   },
   h5: {
     fontSize: 15,
     letterSpacing: 0.5,
     color: 'rgb(248, 147, 240)',
+    fontFamily: 'Fira Sans',
   },
   marqee: {
     alignItems: 'center',
@@ -48,7 +52,7 @@ export default StyleSheet.create({
     fontSize: 13,
     color: 'rgb(212, 234, 255)',
     marginRight: 10,
-    // fontFamily: 'sans-serif',
+    fontFamily: 'Fira Sans',
   },
   redBorder: {
     borderColor: 'red',

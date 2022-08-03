@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
   },
   orderText: {
     color: 'white',
+    fontFamily: 'Fira Sans',
   },
 });
 

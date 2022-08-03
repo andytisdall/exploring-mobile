@@ -108,52 +108,11 @@ const DetailBox = ({
     }
   };
 
-  // const onDragOver = (e) => {
-  //   if (!droppingFile) {
-  //     setDroppingFile(true);
-  //   }
-  // };
-
-  // const onMouseOver = (e) => {
-  //   if (droppingFile) {
-  //     setDroppingFile(false);
-  //   }
-  // };
-
-  // const onDrop = (e) => {
-  //   // this is the only way the file would be defined!
-  //   setTimeout(() => {
-  //     const { files } = e.target;
-  //     // const words = files[0].name.split(' ');
-  //     // let date = new Date(words[words.length - 1].split('.')[0]);
-
-  //     // if (!date instanceof Date || isNaN(date)) {
-  //     //   date = new Date();
-  //     // }
-  //     const fileName = files[0].name.split('.')[0];
-  //     let date = new moment(fileName);
-  //     if (!date.isValid()) {
-  //       date = new Date();
-  //     }
-  //     const formValues = {
-  //       date,
-  //       comments: '',
-  //       latest: true,
-  //       file: files,
-  //     };
-  //     onAddSubmit(formValues);
-  //   }, 0);
-  // };
-
   const renderContent = () => {
     return (
       <>
         {renderDetail()}
-        <View style={styles.detailButtons}>
-          {/* {renderAddButton()}
-          {selectedItem && renderEditButton()}
-          {selectedItem && renderDeleteButton()} */}
-        </View>
+        <View style={styles.detailButtons}></View>
       </>
     );
   };
@@ -198,10 +157,8 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   dropdownContent: {
-    // position: 'absolute',
     backgroundColor: '#f9f9f9',
     shadowColor: 'rgba(0, 0, 0, 0.2)',
-    // transform: [{ translateY: 29 }],
   },
   dropdownLink: {
     padding: 4,
