@@ -32,7 +32,7 @@ export default function App() {
               headerStyle: [baseStyle.background, baseStyle.header],
               headerTintColor: '#65d478',
               headerTitleStyle: {
-                fontSize: 30,
+                fontSize: 25,
               },
               headerBackTitleVisible: false,
             })}
