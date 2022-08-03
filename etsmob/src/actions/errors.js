@@ -1,9 +1,9 @@
 import { ERROR } from './types';
 
-export const errorHandler = (err) => (dispatch) => {
+export const errorHandler = err => dispatch => {
   let message;
   if (err.response) {
-    message = err.response.data.error;
+    message = err.response.data?.error;
   } else {
     message = err.message;
   }
@@ -14,6 +14,6 @@ export const errorHandler = (err) => (dispatch) => {
   dispatch({ type: ERROR, payload: message });
 };
 
-export const throwError = (message) => {
+export const throwError = message => {
   return { type: ERROR, payload: message };
 };

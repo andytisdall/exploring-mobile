@@ -15,16 +15,17 @@ const convertForPlayer = (songArray, state) => {
   return songArray.map(song => {
     return {
       ...song,
-      url: `https://exploring-the-space.com/api/audio/${song.audio}`,
+      url: `http://localhost:8000/api/audio/${song.audio}`,
+      // url: `https://exploring-the-space.com/api/audio/${song.audio}`,
       artist,
       id: song.audio,
     };
   });
 };
 
-export const playAudio = () => {
-  TrackPlayer.play();
-  return { type: PLAY_AUDIO };
+export const playAudio = () => async dispatch => {
+  await TrackPlayer.play();
+  dispatch({ type: PLAY_AUDIO });
 };
 
 export const pauseAudio = () => {
@@ -137,7 +138,7 @@ export const queueSongs = song => async (dispatch, getState) => {
   const convertedQueue = convertForPlayer(queue, state);
 
   TrackPlayer.removeUpcomingTracks();
-  await TrackPlayer.remove(0);
+  // await TrackPlayer.remove(0);
   const prevQueue = await TrackPlayer.getQueue();
 
   await TrackPlayer.add(convertedQueue);

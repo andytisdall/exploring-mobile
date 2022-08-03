@@ -5,14 +5,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Root from './src/root';
 import Main from './src/components/layout/Main';
 import Home from './src/components/pages/Home';
-import setupTrackPlayer from './src/track-player/setup';
 import baseStyle from './src/style/baseStyle';
 
 const Stack = createNativeStackNavigator();
 
 const initialState = {};
-
-setupTrackPlayer();
 
 export default function App() {
   return (

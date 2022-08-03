@@ -15,7 +15,7 @@ export const fetchBand = band => {
 
 export const fetchBands = () => async dispatch => {
   try {
-    const response = await greenhouse.get(`/bands`);
+    const response = await greenhouse.get('/bands');
     dispatch({ type: FETCH_BANDS, payload: response.data });
   } catch (err) {
     dispatch(errorHandler(err));
