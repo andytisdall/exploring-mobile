@@ -1,0 +1,126 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.etsmob"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+8-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="31" />
+9-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:4:5-67
+11-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:4:22-64
+12    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+12-->[com.facebook.flipper:flipper:0.125.0] /Users/andrewtisdall/.gradle/caches/transforms-3/fe3d2caf80349a61e361cff3dfa01c75/transformed/jetified-flipper-0.125.0/AndroidManifest.xml:16:5-76
+12-->[com.facebook.flipper:flipper:0.125.0] /Users/andrewtisdall/.gradle/caches/transforms-3/fe3d2caf80349a61e361cff3dfa01c75/transformed/jetified-flipper-0.125.0/AndroidManifest.xml:16:22-73
+13    <uses-permission android:name="android.permission.WAKE_LOCK" />
+13-->[:react-native-track-player] /Users/andrewtisdall/projects/exploring-mobile/etsmob/node_modules/react-native-track-player/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-68
+13-->[:react-native-track-player] /Users/andrewtisdall/projects/exploring-mobile/etsmob/node_modules/react-native-track-player/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:9:22-65
+14    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+14-->[:react-native-track-player] /Users/andrewtisdall/projects/exploring-mobile/etsmob/node_modules/react-native-track-player/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-77
+14-->[:react-native-track-player] /Users/andrewtisdall/projects/exploring-mobile/etsmob/node_modules/react-native-track-player/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:10:22-74
+15    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+15-->[com.github.doublesymmetry.Exoplayer:exoplayer-core:r2.17.2] /Users/andrewtisdall/.gradle/caches/transforms-3/5038300d5a68a71fb6a7efb996e5b23a/transformed/jetified-exoplayer-core-r2.17.2/AndroidManifest.xml:24:5-79
+15-->[com.github.doublesymmetry.Exoplayer:exoplayer-core:r2.17.2] /Users/andrewtisdall/.gradle/caches/transforms-3/5038300d5a68a71fb6a7efb996e5b23a/transformed/jetified-exoplayer-core-r2.17.2/AndroidManifest.xml:24:22-76
+16
+17    <application
+17-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:6:5-27:19
+18        android:name="com.etsmob.MainApplication"
+18-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:7:7-38
+19        android:allowBackup="false"
+19-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:11:7-34
+20        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+20-->[androidx.core:core:1.7.0] /Users/andrewtisdall/.gradle/caches/transforms-3/5f1947a7dfc6d2c8454ef5b4cd9ba8f9/transformed/core-1.7.0/AndroidManifest.xml:24:18-86
+21        android:debuggable="true"
+22        android:icon="@mipmap/ic_launcher"
+22-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:9:7-41
+23        android:label="@string/app_name"
+23-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:8:7-39
+24        android:roundIcon="@mipmap/ic_launcher_round"
+24-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:10:7-52
+25        android:theme="@style/AppTheme"
+25-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:12:7-38
+26        android:usesCleartextTraffic="true" >
+26-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:13:7-42
+27        <activity
+27-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:15:7-26:18
+28            android:name="com.etsmob.MainActivity"
+28-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:16:9-37
+29            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
+29-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:18:9-118
+30            android:exported="true"
+30-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:21:9-32
+31            android:label="@string/app_name"
+31-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:17:9-41
+32            android:launchMode="singleTask"
+32-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:19:9-40
+33            android:windowSoftInputMode="adjustResize" >
+33-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:20:9-51
+34            <intent-filter>
+34-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:22:9-25:25
+35                <action android:name="android.intent.action.MAIN" />
+35-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:23:13-65
+35-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:23:21-62
+36
+37                <category android:name="android.intent.category.LAUNCHER" />
+37-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:24:13-73
+37-->/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/AndroidManifest.xml:24:23-70
+38            </intent-filter>
+39        </activity>
+40        <!-- The main service, handles playback, playlists and media buttons -->
+41        <service
+41-->[:react-native-track-player] /Users/andrewtisdall/projects/exploring-mobile/etsmob/node_modules/react-native-track-player/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:15:9-22:19
+42            android:name="com.doublesymmetry.trackplayer.service.MusicService"
+42-->[:react-native-track-player] /Users/andrewtisdall/projects/exploring-mobile/etsmob/node_modules/react-native-track-player/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:16:13-79
+43            android:enabled="true"
+43-->[:react-native-track-player] /Users/andrewtisdall/projects/exploring-mobile/etsmob/node_modules/react-native-track-player/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:17:13-35
+44            android:exported="false" >
+44-->[:react-native-track-player] /Users/andrewtisdall/projects/exploring-mobile/etsmob/node_modules/react-native-track-player/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:18:13-37
+45            <intent-filter>
+45-->[:react-native-track-player] /Users/andrewtisdall/projects/exploring-mobile/etsmob/node_modules/react-native-track-player/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:19:13-21:29
+46                <action android:name="android.intent.action.MEDIA_BUTTON" />
+46-->[:react-native-track-player] /Users/andrewtisdall/projects/exploring-mobile/etsmob/node_modules/react-native-track-player/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:20:17-77
+46-->[:react-native-track-player] /Users/andrewtisdall/projects/exploring-mobile/etsmob/node_modules/react-native-track-player/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:20:25-74
+47            </intent-filter>
+48        </service> <!-- A receiver that will receive media buttons. Required on pre-lollipop devices -->
+49        <receiver
+49-->[:react-native-track-player] /Users/andrewtisdall/projects/exploring-mobile/etsmob/node_modules/react-native-track-player/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:25:9-31:20
+50            android:name="androidx.media.session.MediaButtonReceiver"
+50-->[:react-native-track-player] /Users/andrewtisdall/projects/exploring-mobile/etsmob/node_modules/react-native-track-player/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:26:13-70
+51            android:exported="true" >
+51-->[:react-native-track-player] /Users/andrewtisdall/projects/exploring-mobile/etsmob/node_modules/react-native-track-player/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:27:13-36
+52            <intent-filter>
+52-->[:react-native-track-player] /Users/andrewtisdall/projects/exploring-mobile/etsmob/node_modules/react-native-track-player/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:19:13-21:29
+53                <action android:name="android.intent.action.MEDIA_BUTTON" />
+53-->[:react-native-track-player] /Users/andrewtisdall/projects/exploring-mobile/etsmob/node_modules/react-native-track-player/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:20:17-77
+53-->[:react-native-track-player] /Users/andrewtisdall/projects/exploring-mobile/etsmob/node_modules/react-native-track-player/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:20:25-74
+54            </intent-filter>
+55        </receiver>
+56
+57        <provider
+57-->[androidx.emoji2:emoji2:1.0.0] /Users/andrewtisdall/.gradle/caches/transforms-3/1f19b7423831e3f5822d2ce4bcdcfce7/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:26:9-34:20
+58            android:name="androidx.startup.InitializationProvider"
+58-->[androidx.emoji2:emoji2:1.0.0] /Users/andrewtisdall/.gradle/caches/transforms-3/1f19b7423831e3f5822d2ce4bcdcfce7/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:27:13-67
+59            android:authorities="com.etsmob.androidx-startup"
+59-->[androidx.emoji2:emoji2:1.0.0] /Users/andrewtisdall/.gradle/caches/transforms-3/1f19b7423831e3f5822d2ce4bcdcfce7/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:28:13-68
+60            android:exported="false" >
+60-->[androidx.emoji2:emoji2:1.0.0] /Users/andrewtisdall/.gradle/caches/transforms-3/1f19b7423831e3f5822d2ce4bcdcfce7/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:29:13-37
+61            <meta-data
+61-->[androidx.emoji2:emoji2:1.0.0] /Users/andrewtisdall/.gradle/caches/transforms-3/1f19b7423831e3f5822d2ce4bcdcfce7/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:31:13-33:52
+62                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+62-->[androidx.emoji2:emoji2:1.0.0] /Users/andrewtisdall/.gradle/caches/transforms-3/1f19b7423831e3f5822d2ce4bcdcfce7/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:32:17-75
+63                android:value="androidx.startup" />
+63-->[androidx.emoji2:emoji2:1.0.0] /Users/andrewtisdall/.gradle/caches/transforms-3/1f19b7423831e3f5822d2ce4bcdcfce7/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:33:17-49
+64            <meta-data
+64-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/andrewtisdall/.gradle/caches/transforms-3/8954e11958c17d016c5a1d2f1f4be9d8/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:31:13-33:52
+65                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+65-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/andrewtisdall/.gradle/caches/transforms-3/8954e11958c17d016c5a1d2f1f4be9d8/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:32:17-78
+66                android:value="androidx.startup" />
+66-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/andrewtisdall/.gradle/caches/transforms-3/8954e11958c17d016c5a1d2f1f4be9d8/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:33:17-49
+67        </provider>
+68    </application>
+69
+70</manifest>

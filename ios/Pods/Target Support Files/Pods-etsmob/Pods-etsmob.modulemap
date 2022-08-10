@@ -1,0 +1,6 @@
+module Pods_etsmob {
+  umbrella header "Pods-etsmob-umbrella.h"
+
+  export *
+  module * { export * }
+}

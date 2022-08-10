@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.doublesymmetry.Exoplayer:exoplayer-database:r2.17.2@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/b36b06ad7bdea22b60cd000071fcee87/transformed/jetified-exoplayer-database-r2.17.2/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b5797388d3e881a880f12e93e7144245/transformed/jetified-exoplayer-database-r2.17.2/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/b36b06ad7bdea22b60cd000071fcee87/transformed/jetified-exoplayer-database-r2.17.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b36b06ad7bdea22b60cd000071fcee87/transformed/jetified-exoplayer-database-r2.17.2/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b36b06ad7bdea22b60cd000071fcee87/transformed/jetified-exoplayer-database-r2.17.2/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.doublesymmetry.Exoplayer/exoplayer-database/r2.17.2/d2ee3d5f1f5e62a9a7c462d28842a49a41c113e1/exoplayer-database-r2.17.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

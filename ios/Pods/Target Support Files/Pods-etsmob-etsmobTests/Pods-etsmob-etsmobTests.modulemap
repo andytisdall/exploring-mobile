@@ -1,0 +1,6 @@
+module Pods_etsmob_etsmobTests {
+  umbrella header "Pods-etsmob-etsmobTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

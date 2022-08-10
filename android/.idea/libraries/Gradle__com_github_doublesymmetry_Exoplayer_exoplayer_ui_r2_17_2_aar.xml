@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.doublesymmetry.Exoplayer:exoplayer-ui:r2.17.2@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/a29b28ebbee387128da5944a165d7021/transformed/jetified-exoplayer-ui-r2.17.2/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/a29b28ebbee387128da5944a165d7021/transformed/jetified-exoplayer-ui-r2.17.2/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/a29b28ebbee387128da5944a165d7021/transformed/jetified-exoplayer-ui-r2.17.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/a29b28ebbee387128da5944a165d7021/transformed/jetified-exoplayer-ui-r2.17.2/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.doublesymmetry.Exoplayer/exoplayer-ui/r2.17.2/f22f62d2f1a3e93df8b1b020985573fe6c2f0f3d/exoplayer-ui-r2.17.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

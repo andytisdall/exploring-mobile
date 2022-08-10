@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.doublesymmetry.Exoplayer:exoplayer-dash:r2.17.2@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/bb9d09a06fa4fe7d7d4b1c456e6af5e1/transformed/jetified-exoplayer-dash-r2.17.2/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/a97d2a2b74483cf3fcab014f4b93a9fc/transformed/jetified-exoplayer-dash-r2.17.2/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/bb9d09a06fa4fe7d7d4b1c456e6af5e1/transformed/jetified-exoplayer-dash-r2.17.2/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/bb9d09a06fa4fe7d7d4b1c456e6af5e1/transformed/jetified-exoplayer-dash-r2.17.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/bb9d09a06fa4fe7d7d4b1c456e6af5e1/transformed/jetified-exoplayer-dash-r2.17.2/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.doublesymmetry.Exoplayer/exoplayer-dash/r2.17.2/5240696613ca24272ec98411715dfb981f0dcec/exoplayer-dash-r2.17.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

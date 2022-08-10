@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.doublesymmetry.Exoplayer:exoplayer-hls:r2.17.2@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/4160f954fd51d3d108dba06cea5dc945/transformed/jetified-exoplayer-hls-r2.17.2/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/583f36306240860fd5853e6b8290b7d5/transformed/jetified-exoplayer-hls-r2.17.2/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/4160f954fd51d3d108dba06cea5dc945/transformed/jetified-exoplayer-hls-r2.17.2/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/4160f954fd51d3d108dba06cea5dc945/transformed/jetified-exoplayer-hls-r2.17.2/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/4160f954fd51d3d108dba06cea5dc945/transformed/jetified-exoplayer-hls-r2.17.2/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.doublesymmetry.Exoplayer/exoplayer-hls/r2.17.2/29f9a553580542eb14df8f9ce230634336eec5ce/exoplayer-hls-r2.17.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/etsmob.iml" filepath="$PROJECT_DIR$/.idea/modules/etsmob.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/etsmob.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/etsmob.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/etsmob.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/etsmob.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/etsmob.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/etsmob.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/etsmob.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/etsmob.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/479217173/etsmob.react-native-community_masked-view.iml" filepath="$PROJECT_DIR$/.idea/modules/479217173/etsmob.react-native-community_masked-view.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/479217173/etsmob.react-native-community_masked-view.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/479217173/etsmob.react-native-community_masked-view.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/479217173/etsmob.react-native-community_masked-view.main.iml" filepath="$PROJECT_DIR$/.idea/modules/479217173/etsmob.react-native-community_masked-view.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/479217173/etsmob.react-native-community_masked-view.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/479217173/etsmob.react-native-community_masked-view.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/872633203/etsmob.react-native-community_slider.iml" filepath="$PROJECT_DIR$/.idea/modules/872633203/etsmob.react-native-community_slider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/872633203/etsmob.react-native-community_slider.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/872633203/etsmob.react-native-community_slider.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/872633203/etsmob.react-native-community_slider.main.iml" filepath="$PROJECT_DIR$/.idea/modules/872633203/etsmob.react-native-community_slider.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/872633203/etsmob.react-native-community_slider.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/872633203/etsmob.react-native-community_slider.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1721171042/etsmob.react-native-gesture-handler.iml" filepath="$PROJECT_DIR$/.idea/modules/1721171042/etsmob.react-native-gesture-handler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1721171042/etsmob.react-native-gesture-handler.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/1721171042/etsmob.react-native-gesture-handler.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1721171042/etsmob.react-native-gesture-handler.main.iml" filepath="$PROJECT_DIR$/.idea/modules/1721171042/etsmob.react-native-gesture-handler.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1721171042/etsmob.react-native-gesture-handler.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/1721171042/etsmob.react-native-gesture-handler.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1953845132/etsmob.react-native-linear-gradient.iml" filepath="$PROJECT_DIR$/.idea/modules/-1953845132/etsmob.react-native-linear-gradient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1953845132/etsmob.react-native-linear-gradient.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-1953845132/etsmob.react-native-linear-gradient.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1953845132/etsmob.react-native-linear-gradient.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-1953845132/etsmob.react-native-linear-gradient.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1953845132/etsmob.react-native-linear-gradient.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-1953845132/etsmob.react-native-linear-gradient.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/334883962/etsmob.react-native-reanimated.iml" filepath="$PROJECT_DIR$/.idea/modules/334883962/etsmob.react-native-reanimated.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1134330955/etsmob.react-native-safe-area-context.iml" filepath="$PROJECT_DIR$/.idea/modules/1134330955/etsmob.react-native-safe-area-context.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1134330955/etsmob.react-native-safe-area-context.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/1134330955/etsmob.react-native-safe-area-context.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1134330955/etsmob.react-native-safe-area-context.main.iml" filepath="$PROJECT_DIR$/.idea/modules/1134330955/etsmob.react-native-safe-area-context.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1134330955/etsmob.react-native-safe-area-context.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/1134330955/etsmob.react-native-safe-area-context.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/569882147/etsmob.react-native-screens.iml" filepath="$PROJECT_DIR$/.idea/modules/569882147/etsmob.react-native-screens.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/569882147/etsmob.react-native-screens.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/569882147/etsmob.react-native-screens.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/569882147/etsmob.react-native-screens.main.iml" filepath="$PROJECT_DIR$/.idea/modules/569882147/etsmob.react-native-screens.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/569882147/etsmob.react-native-screens.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/569882147/etsmob.react-native-screens.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2071824384/etsmob.react-native-svg.iml" filepath="$PROJECT_DIR$/.idea/modules/-2071824384/etsmob.react-native-svg.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2071824384/etsmob.react-native-svg.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-2071824384/etsmob.react-native-svg.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2071824384/etsmob.react-native-svg.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-2071824384/etsmob.react-native-svg.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2071824384/etsmob.react-native-svg.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-2071824384/etsmob.react-native-svg.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/226038599/etsmob.react-native-track-player.iml" filepath="$PROJECT_DIR$/.idea/modules/226038599/etsmob.react-native-track-player.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/226038599/etsmob.react-native-track-player.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/226038599/etsmob.react-native-track-player.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/226038599/etsmob.react-native-track-player.main.iml" filepath="$PROJECT_DIR$/.idea/modules/226038599/etsmob.react-native-track-player.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/226038599/etsmob.react-native-track-player.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/226038599/etsmob.react-native-track-player.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1917658443/react-native-gradle-plugin.iml" filepath="$PROJECT_DIR$/.idea/modules/-1917658443/react-native-gradle-plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1917658443/react-native-gradle-plugin.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-1917658443/react-native-gradle-plugin.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1917658443/react-native-gradle-plugin.test.iml" filepath="$PROJECT_DIR$/.idea/modules/-1917658443/react-native-gradle-plugin.test.iml" />
+    </modules>
+  </component>
+</project>

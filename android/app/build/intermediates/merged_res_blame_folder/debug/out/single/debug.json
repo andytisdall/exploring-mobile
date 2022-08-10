@@ -1,0 +1,58 @@
+[
+    {
+        "merged": "com.etsmob.app-merged_res-36:/drawable_rn_edit_text_material.xml.flat",
+        "source": "com.etsmob.app-main-38:/drawable/rn_edit_text_material.xml"
+    },
+    {
+        "merged": "com.etsmob.app-merged_res-36:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.etsmob.app-main-38:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.etsmob.app-merged_res-36:/mipmap-xxhdpi_ic_launcher_foreground.png.flat",
+        "source": "com.etsmob.app-main-38:/mipmap-xxhdpi/ic_launcher_foreground.png"
+    },
+    {
+        "merged": "com.etsmob.app-merged_res-36:/mipmap-hdpi_icon.png.flat",
+        "source": "com.etsmob.app-main-38:/mipmap-hdpi/icon.png"
+    },
+    {
+        "merged": "com.etsmob.app-merged_res-36:/mipmap-xxxhdpi_ic_launcher_foreground.png.flat",
+        "source": "com.etsmob.app-main-38:/mipmap-xxxhdpi/ic_launcher_foreground.png"
+    },
+    {
+        "merged": "com.etsmob.app-merged_res-36:/mipmap-xhdpi_ic_launcher_foreground.png.flat",
+        "source": "com.etsmob.app-main-38:/mipmap-xhdpi/ic_launcher_foreground.png"
+    },
+    {
+        "merged": "com.etsmob.app-merged_res-36:/mipmap-hdpi_ic_launcher_foreground.png.flat",
+        "source": "com.etsmob.app-main-38:/mipmap-hdpi/ic_launcher_foreground.png"
+    },
+    {
+        "merged": "com.etsmob.app-merged_res-36:/mipmap-xhdpi_icon.png.flat",
+        "source": "com.etsmob.app-main-38:/mipmap-xhdpi/icon.png"
+    },
+    {
+        "merged": "com.etsmob.app-merged_res-36:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.etsmob.app-main-38:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.etsmob.app-merged_res-36:/mipmap-mdpi_ic_launcher_foreground.png.flat",
+        "source": "com.etsmob.app-main-38:/mipmap-mdpi/ic_launcher_foreground.png"
+    },
+    {
+        "merged": "com.etsmob.app-merged_res-36:/mipmap-xxxhdpi_icon.png.flat",
+        "source": "com.etsmob.app-main-38:/mipmap-xxxhdpi/icon.png"
+    },
+    {
+        "merged": "com.etsmob.app-merged_res-36:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.etsmob.app-main-38:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.etsmob.app-merged_res-36:/mipmap-xxhdpi_icon.png.flat",
+        "source": "com.etsmob.app-main-38:/mipmap-xxhdpi/icon.png"
+    },
+    {
+        "merged": "com.etsmob.app-merged_res-36:/mipmap-mdpi_icon.png.flat",
+        "source": "com.etsmob.app-main-38:/mipmap-mdpi/icon.png"
+    }
+]

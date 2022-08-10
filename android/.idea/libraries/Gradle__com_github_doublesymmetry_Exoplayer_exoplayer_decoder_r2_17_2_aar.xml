@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.doublesymmetry.Exoplayer:exoplayer-decoder:r2.17.2@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/a473ec290f766710ff78f0945e24e350/transformed/jetified-exoplayer-decoder-r2.17.2/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/e29749422e4cf2a3d8e7f471063346d9/transformed/jetified-exoplayer-decoder-r2.17.2/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/a473ec290f766710ff78f0945e24e350/transformed/jetified-exoplayer-decoder-r2.17.2/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/a473ec290f766710ff78f0945e24e350/transformed/jetified-exoplayer-decoder-r2.17.2/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/a473ec290f766710ff78f0945e24e350/transformed/jetified-exoplayer-decoder-r2.17.2/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.doublesymmetry.Exoplayer/exoplayer-decoder/r2.17.2/ab494d2e4ccc3f5138220f589ead683854567cd8/exoplayer-decoder-r2.17.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.doublesymmetry.Exoplayer:exoplayer-rtsp:r2.17.2@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/6380c1cf8549de1f7a36cb471370bbb7/transformed/jetified-exoplayer-rtsp-r2.17.2/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/565dd6a4b15d4ea173acbb3eaddf946d/transformed/jetified-exoplayer-rtsp-r2.17.2/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/6380c1cf8549de1f7a36cb471370bbb7/transformed/jetified-exoplayer-rtsp-r2.17.2/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/6380c1cf8549de1f7a36cb471370bbb7/transformed/jetified-exoplayer-rtsp-r2.17.2/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/6380c1cf8549de1f7a36cb471370bbb7/transformed/jetified-exoplayer-rtsp-r2.17.2/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.doublesymmetry.Exoplayer/exoplayer-rtsp/r2.17.2/587cc648832e2a699977aa58497fa7e46f682d92/exoplayer-rtsp-r2.17.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
