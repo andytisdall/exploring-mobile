@@ -19,9 +19,10 @@ const Error = ({ error, throwError }) => {
 const styles = StyleSheet.create({
   error: {
     backgroundColor: 'rgb(238, 31, 31)',
-    height: 25,
     alignItems: 'center',
-    position: 'absolute',
+    position: 'static',
+    padding: 20,
+    marginTop: 20,
     zIndex: 100,
   },
   text: {

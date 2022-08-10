@@ -6,6 +6,7 @@ import Root from './src/root';
 import Main from './src/components/layout/Main';
 import Home from './src/components/pages/Home';
 import baseStyle from './src/style/baseStyle';
+import TrackPlayer from 'react-native-track-player';
 
 const Stack = createNativeStackNavigator();
 

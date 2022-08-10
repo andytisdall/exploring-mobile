@@ -5,6 +5,7 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 
 import { queueSongs, playAudio } from '../../actions';
 import PlayButton from '../../assets/images/play.svg';
+import baseStyle from '../../style/baseStyle';
 
 const PlayContainer = ({ song, queueSongs }) => {
   const displayDate = date => {
@@ -25,7 +26,7 @@ const PlayContainer = ({ song, queueSongs }) => {
   };
 
   return (
-    <View style={styles.playContainer}>
+    <View style={[styles.playContainer]}>
       <Text style={styles.playContainerTime}>
         {displayTime(song.bounce.duration)}
       </Text>
@@ -34,7 +35,7 @@ const PlayContainer = ({ song, queueSongs }) => {
       </Pressable>
       <View style={[styles.playContainerDisplay]}>
         <Text style={styles.playContainerText}>{song.version.name}</Text>
-        <Text style={styles.playContainerText}>
+        <Text style={[styles.playContainerText]}>
           {displayDate(song.bounce.date)}
         </Text>
       </View>
@@ -46,11 +47,12 @@ const styles = StyleSheet.create({
   playContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 35,
+    marginLeft: 25,
+    width: '50%',
   },
   playContainerTime: {
     fontSize: 15,
-    width: 36,
+    width: 40,
   },
   playContainerDisplay: {
     marginLeft: 10,
@@ -58,6 +60,7 @@ const styles = StyleSheet.create({
   playContainerText: {
     fontSize: 13,
     marginBottom: 4,
+    maxWidth: '100%',
   },
   playButton: {
     height: 35,

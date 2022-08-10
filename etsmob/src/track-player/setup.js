@@ -1,20 +1,27 @@
-import TrackPlayer, { Capability } from 'react-native-track-player';
+import TrackPlayer, { Capability, RepeatMode } from 'react-native-track-player';
 
 const setup = async () => {
   try {
     await TrackPlayer.setupPlayer();
     await TrackPlayer.updateOptions({
-      stopWithApp: true,
+      stoppingAppPausesPlayback: true,
       capabilities: [
         Capability.Play,
         Capability.Pause,
+        Capability.Skip,
         Capability.SkipToNext,
         Capability.SkipToPrevious,
         Capability.Stop,
         Capability.SeekTo,
       ],
-      compactCapabilities: [Capability.Play, Capability.Pause],
+      compactCapabilities: [
+        Capability.Play,
+        Capability.Pause,
+        Capability.SkipToNext,
+        Capability.SkipToPrevious,
+      ],
     });
+    // await TrackPlayer.setRepeatMode(RepeatMode.Track);
   } catch {
     return;
   }

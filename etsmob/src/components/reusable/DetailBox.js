@@ -123,7 +123,7 @@ const DetailBox = ({
 const styles = StyleSheet.create({
   detailBox: {
     marginVertical: 4,
-    width: '40%',
+    width: '45%',
     borderColor: 'white',
     borderWidth: 1,
     padding: 7,
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   dropbtn: {
-    fontSize: 17,
+    fontSize: 15,
     backgroundColor: '#76cdff',
     padding: 5,
   },

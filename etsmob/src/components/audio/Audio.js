@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
@@ -8,7 +8,7 @@ import TrackPlayer, {
   Event,
   State,
 } from 'react-native-track-player';
-import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import { Slider } from '@miblanchard/react-native-slider';
 
 import {
   playAudio,
@@ -38,7 +38,7 @@ const Audio = ({
   const { position, duration } = useProgress();
   const [playerState, setPlayerState] = useState(State.Paused);
 
-  const events = [Event.PlaybackState, Event.PlaybackError];
+  const events = Object.values(Event);
 
   useEffect(() => {
     syncAudioState();
@@ -46,6 +46,7 @@ const Audio = ({
 
   useTrackPlayerEvents(events, async event => {
     syncAudioState();
+    // console.log(event);
 
     if (event.type === Event.PlaybackError) {
       throwError('audio player had an error');
@@ -84,7 +85,7 @@ const Audio = ({
   };
 
   const onSliderChange = value => {
-    TrackPlayer.seekTo(Math.round(value));
+    TrackPlayer.seekTo(Math.round(value[0]));
   };
 
   const onPauseButton = () => {
@@ -98,7 +99,7 @@ const Audio = ({
   const showPlayerState = () => {
     const statesToShow = [State.Buffering];
     if (statesToShow.includes(playerState)) {
-      return <Text style={styles.playerState}>{playerState}</Text>;
+      return <Text style={styles.playerState}>{State[playerState]}</Text>;
     }
   };
 
@@ -149,12 +150,22 @@ const Audio = ({
           <Text style={[baseStyle.text, styles.playsliderTime]}>
             {formatTime(position)}
           </Text>
-          <MultiSlider
+          {/* <MultiSlider
             values={[Math.floor(position)]}
             max={Math.floor(duration) || 1000}
             onValuesChangeFinish={onSliderChange}
             markerStyle={styles.thumb}
             trackStyle={styles.track}
+            containerStyle={styles.slider}
+          /> */}
+          <Slider
+            value={Math.round(position)}
+            maximumValue={Math.round(duration)}
+            minimumValue={0}
+            onValueChange={onSliderChange}
+            thumbStyle={styles.thumb}
+            minimumTrackTintColor="rgb(200, 230, 100)"
+            maximumTrackTintColor="rgb(181, 188, 255)"
             containerStyle={styles.slider}
           />
           <Text style={[baseStyle.text, styles.playsliderTime]}>
@@ -228,7 +239,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingleft: 10,
+    width: '75%',
   },
   playsliderTime: {
     fontSize: 15,
@@ -237,14 +248,12 @@ const styles = StyleSheet.create({
   },
   slider: {
     height: 40,
-  },
-  track: {
-    backgroundColor: 'yellow',
+    width: '93%',
   },
   thumb: {
     width: 7,
     height: 20,
-    backgroundColor: 'red',
+    backgroundColor: '#65d478',
   },
   playerState: {
     color: 'white',

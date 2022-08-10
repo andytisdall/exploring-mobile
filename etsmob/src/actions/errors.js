@@ -1,13 +1,8 @@
 import { ERROR } from './types';
 
 export const errorHandler = err => dispatch => {
-  let message;
-  if (err.response) {
-    message = err.response.data?.error;
-  } else {
-    message = err.message;
-  }
-  console.log(err);
+  const message = err.response?.data?.error || err.message || err;
+
   setTimeout(() => {
     dispatch(throwError(null));
   }, 10000);

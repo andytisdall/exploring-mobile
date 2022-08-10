@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@miblanchard/react-native-slider": "^2.1.0",
     "@ptomasroos/react-native-multi-slider": "^2.2.2",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-community/slider": "^4.2.4",
@@ -31,7 +32,8 @@
     "react-native-track-player": "^2.2.0-rc4",
     "react-redux": "^8.0.2",
     "redux": "^4.2.0",
-    "redux-thunk": "^2.4.1"
+    "redux-thunk": "^2.4.1",
+    "stacktrace-parser": "0.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

@@ -66,28 +66,26 @@ const Version = ({ versions, selectVersion, title, song, fetchVersions }) => {
   };
 
   const itemList = () => {
-    return versionList.filter(v => v.id !== selectedVersion.id);
+    return versionList.filter(v => v && v.id !== selectedVersion.id);
   };
 
   const displayVersion = v => {
     return `${v.name}`;
   };
 
-  if (versionList && versionList[0]) {
-    return (
-      <>
-        <DetailBox
-          selectedItem={selectedVersion}
-          itemType="Version"
-          itemList={itemList}
-          displayItem={displayVersion}
-          setSelected={setSelectedVersion}
-        />
-        <View>{renderArrow()}</View>
-        {renderBounces()}
-      </>
-    );
-  }
+  return (
+    <>
+      <DetailBox
+        selectedItem={selectedVersion}
+        itemType="Version"
+        itemList={itemList}
+        displayItem={displayVersion}
+        setSelected={setSelectedVersion}
+      />
+      <View>{renderArrow()}</View>
+      {renderBounces()}
+    </>
+  );
 };
 
 const mapStateToProps = state => {

@@ -1,8 +1,23 @@
 import React, { useState } from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  LayoutAnimation,
+  Platform,
+  UIManager,
+} from 'react-native';
 
 import baseStyle from '../../style/baseStyle';
 import Arrow from '../../assets/images/right-arrow.svg';
+
+if (
+  Platform.OS === 'android' &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 const ParentDetail = ({ item, childList, showChildren, options }) => {
   const [expand, setExpand] = useState(false);
@@ -41,7 +56,16 @@ const ParentDetail = ({ item, childList, showChildren, options }) => {
     <>
       <Pressable
         style={[baseStyle.marqee, baseStyle.tier]}
-        onPress={() => setExpand(state => !state)}
+        onPress={() => {
+          LayoutAnimation.configureNext(
+            LayoutAnimation.create(
+              200,
+              LayoutAnimation.Types.linear,
+              LayoutAnimation.Properties.scaleXY,
+            ),
+          );
+          setExpand(state => !state);
+        }}
       >
         <View style={[styles.tierName]}>
           <Arrow style={arrow} />

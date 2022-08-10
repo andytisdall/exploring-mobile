@@ -15,8 +15,8 @@ const convertForPlayer = (songArray, state) => {
   return songArray.map(song => {
     return {
       ...song,
-      url: `http://localhost:8000/api/audio/${song.audio}`,
-      // url: `https://exploring-the-space.com/api/audio/${song.audio}`,
+      // url: `http://localhost:8000/api/audio/${song.audio}`,
+      url: `https://exploring-the-space.com/api/audio/${song.audio}`,
       artist,
       id: song.audio,
     };
@@ -137,15 +137,16 @@ export const queueSongs = song => async (dispatch, getState) => {
   const queue = updateQueue('new', state, song);
   const convertedQueue = convertForPlayer(queue, state);
 
-  TrackPlayer.removeUpcomingTracks();
-  // await TrackPlayer.remove(0);
   const prevQueue = await TrackPlayer.getQueue();
 
-  await TrackPlayer.add(convertedQueue);
   if (prevQueue.length) {
+    TrackPlayer.reset();
+    TrackPlayer.removeUpcomingTracks();
+    await TrackPlayer.add(convertedQueue);
     await TrackPlayer.skipToNext();
+  } else {
+    await TrackPlayer.add(convertedQueue);
   }
-
   // let player get ready to avoid hiccups
   let playerReady;
   while (!playerReady) {
@@ -173,6 +174,7 @@ const getQueueAndPlay = async (action, dispatch, state) => {
   TrackPlayer.removeUpcomingTracks();
   await TrackPlayer.add(convertedQueue);
   await TrackPlayer.skipToNext();
+  await TrackPlayer.play();
 
   dispatch({ type: NEXT_SONG, payload: convertedQueue[0] });
 };
@@ -190,7 +192,10 @@ export const changeVolume = value => {
 };
 
 export const initializeAudio = () => async dispatch => {
-  TrackPlayer.removeUpcomingTracks();
+  const queue = await TrackPlayer.getQueue();
+  if (queue.length) {
+    TrackPlayer.removeUpcomingTracks();
+  }
   TrackPlayer.pause();
   dispatch({ type: INITIALIZE_AUDIO });
 };

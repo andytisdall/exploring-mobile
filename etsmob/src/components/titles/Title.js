@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Text, View, StyleSheet, Pressable } from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Pressable,
+  UIManager,
+  LayoutAnimation,
+  Platform,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Version from '../versions/Version';
@@ -14,6 +22,13 @@ import PlayContainer from '../reusable/PlayContainer';
 import { regularColors, currentSongColors } from '../../style/gradientColors';
 import baseStyle from '../../style/baseStyle';
 import Arrow from '../../assets/images/right-arrow.svg';
+
+if (
+  Platform.OS === 'android' &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 const Title = ({
   tier,
@@ -119,8 +134,20 @@ const Title = ({
   let arrow = expand ? styles.arrowRotated : {};
 
   return (
-    <View style={styles.titleMargin}>
-      <Pressable onPress={() => setExpand(!expand)} style={styles.topBorder}>
+    <View style={[styles.titleMargin]}>
+      <Pressable
+        onPress={() => {
+          LayoutAnimation.configureNext(
+            LayoutAnimation.create(
+              150,
+              LayoutAnimation.Types.linear,
+              LayoutAnimation.Properties.scaleXY,
+            ),
+          );
+          setExpand(!expand);
+        }}
+        style={styles.topBorder}
+      >
         <LinearGradient
           colors={colors}
           start={{ x: 0, y: 0 }}

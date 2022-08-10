@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, StyleSheet, FlatList, SafeAreaView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  SafeAreaView,
+  ActivityIndicator,
+} from 'react-native';
 
 import {
   fetchTiers,
@@ -84,6 +91,9 @@ const BodyContainer = ({
   }, [playlists, band]);
 
   const renderTiers = () => {
+    if (band.tiers.length && !tierList[0]) {
+      return <ActivityIndicator size="large" style={styles.spinner} />;
+    }
     const tiersToRender = tierList.filter(tier => tier);
     return (
       <FlatList
@@ -165,6 +175,9 @@ const styles = StyleSheet.create({
   },
   noBand: {
     height: '100%',
+  },
+  spinner: {
+    padding: 40,
   },
 });
 
