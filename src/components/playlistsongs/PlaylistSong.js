@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import PlayContainer from '../reusable/PlayContainer';
 import baseStyle from '../../style/baseStyle';
 import { styles } from '../titles/Title';
+import { regularColors, currentSongColors } from '../../style/gradientColors';
 
 const PlaylistSong = ({
   playlist,
@@ -51,21 +52,6 @@ const PlaylistSong = ({
   const current = audio.currentSong ? audio.currentSong.audio : null;
   const parent = audio.currentSong ? audio.currentSong.parent.id : null;
 
-  const regularColors = [
-    'rgba(233, 255, 255, 0.479)',
-    'rgba(213, 247, 255, 0.616)',
-    'rgb(181, 188, 255)',
-    'rgba(168, 209, 255, 0.781)',
-    'rgba(210, 255, 210, 0)',
-  ];
-  const currentSongColors = [
-    'rgba(255, 233, 233, 0.479)',
-    'rgba(255, 218, 183, 0.616)',
-    'rgb(244, 255, 83)',
-    'rgba(255, 240, 108, 0.781)',
-    'rgba(255, 243, 210, 0)',
-  ];
-
   let colors = regularColors;
 
   if (current && song.bounce) {
@@ -99,7 +85,7 @@ const PlaylistSong = ({
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     playlistSongs: state.playlistSongs,
     versions: state.versions,

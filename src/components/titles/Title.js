@@ -78,7 +78,7 @@ const Title = ({
     // console.log('c');
     if (title.selectedVersion) {
       if (title.selectedVersion.bounces[0]) {
-        setBounceList(title.selectedVersion.bounces.map(id => bounces[id]));
+        setBounceList(title.selectedVersion.bounces.map((id) => bounces[id]));
       } else if (title.selectedBounce !== null) {
         // console.log('set bounce list null');
         setBounceList(null);
@@ -98,7 +98,7 @@ const Title = ({
       if (!title.selectedBounce || !bounceList.includes(title.selectedBounce)) {
         // if not found that means the selected version has changed so just select the latest bounce
 
-        bounceToSelect = bounceList.find(b => b.latest);
+        bounceToSelect = bounceList.find((b) => b.latest);
       }
 
       if (bounceToSelect) {
@@ -120,7 +120,7 @@ const Title = ({
   };
 
   const current = audio.currentSong ? audio.currentSong.audio : null;
-  const parent = audio.parent ? audio.parent.id : null;
+  const parent = audio.currentSong ? audio.currentSong.parent.id : null;
 
   let colors = regularColors;
 
@@ -141,8 +141,8 @@ const Title = ({
             LayoutAnimation.create(
               150,
               LayoutAnimation.Types.linear,
-              LayoutAnimation.Properties.scaleXY,
-            ),
+              LayoutAnimation.Properties.scaleXY
+            )
           );
           setExpand(!expand);
         }}
@@ -209,7 +209,7 @@ export const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     bounces: state.bounces,
     titles: state.titles,

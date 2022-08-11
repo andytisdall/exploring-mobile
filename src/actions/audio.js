@@ -3,27 +3,12 @@ import TrackPlayer, { State } from 'react-native-track-player';
 import {
   PLAY_AUDIO,
   PAUSE_AUDIO,
-  QUEUE_SONGS,
-  NEXT_SONG,
   INITIALIZE_AUDIO,
-  CHANGE_VOLUME,
   SYNC_AUDIO,
+  SET_CURRENT_SONG,
 } from './types';
 
-const convertForPlayer = (songArray, state) => {
-  const artist = state.bands.currentBand.name;
-  return songArray.map(song => {
-    return {
-      ...song,
-      // url: `http://localhost:8000/api/audio/${song.audio}`,
-      url: `https://exploring-the-space.com/api/audio/${song.audio}`,
-      artist,
-      id: song.audio,
-    };
-  });
-};
-
-export const playAudio = () => async dispatch => {
+export const playAudio = () => async (dispatch) => {
   await TrackPlayer.play();
   dispatch({ type: PLAY_AUDIO });
 };
@@ -36,8 +21,8 @@ export const pauseAudio = () => {
 const orderTitles = (tierId, state) => {
   const tier = state.tiers[tierId];
   const titleList = tier.trackList
-    .map(id => state.titles[id])
-    .filter(title => title && title.selectedBounce);
+    .map((id) => state.titles[id])
+    .filter((title) => title && title.selectedBounce);
 
   if (tier.orderBy === 'date' || !tier.orderBy) {
     return titleList.sort((a, b) => {
@@ -56,7 +41,7 @@ const orderTitles = (tierId, state) => {
   }
 };
 
-const updateQueue = (action, state, currentSong = null) => {
+const getQueue = (action, state, currentSong = null) => {
   let increment;
 
   if (action === 'next') {
@@ -72,13 +57,15 @@ const updateQueue = (action, state, currentSong = null) => {
   }
   const { parent } = currentSong;
 
+  let songArray = [];
+
   // parent is tier
   if (parent.trackList) {
     const allTitles = orderTitles(parent.id, state);
 
     const currentIndex = allTitles.findIndex(
-      title =>
-        title.title === currentSong.title || title.id === currentSong.title.id,
+      (title) =>
+        title.title === currentSong.title || title.id === currentSong.title.id
     );
 
     if (currentIndex + increment < 0) {
@@ -87,7 +74,7 @@ const updateQueue = (action, state, currentSong = null) => {
 
     const queue = allTitles.slice(currentIndex + increment);
 
-    return queue.map(song => {
+    songArray = queue.map((song) => {
       const version = song.selectedVersion;
       const bounce = song.selectedBounce;
 
@@ -97,7 +84,6 @@ const updateQueue = (action, state, currentSong = null) => {
         date: bounce.date,
         duration: bounce.duration,
         audio: bounce.id,
-        parent,
       };
     });
   }
@@ -105,8 +91,8 @@ const updateQueue = (action, state, currentSong = null) => {
   // parent is playlist
   if (parent.songs) {
     const allSongs = parent.songs
-      .map(id => state.playlistSongs[id])
-      .filter(song => song.bounce)
+      .map((id) => state.playlistSongs[id])
+      .filter((song) => song.bounce)
       .sort((a, b) => (a.position < b.position ? -1 : 1));
 
     if (currentSong.position + (increment - 1) < 0) {
@@ -115,7 +101,7 @@ const updateQueue = (action, state, currentSong = null) => {
 
     const queue = allSongs.slice(currentSong.position + (increment - 1));
 
-    return queue.map((song, i) => {
+    songArray = queue.map((song, i) => {
       const title = state.titles[song.title];
 
       return {
@@ -125,28 +111,38 @@ const updateQueue = (action, state, currentSong = null) => {
         duration: song.bounce.duration,
         audio: song.bounce.id,
         position: song.position,
-        parent,
       };
     });
   }
+
+  const artist = state.bands.currentBand.name;
+  return songArray.map((song) => {
+    return {
+      ...song,
+      // url: `http://localhost:8000/api/audio/${song.audio}`,
+      url: `https://exploring-the-space.com/api/audio/${song.audio}`,
+      artist,
+      id: song.audio,
+      parent,
+    };
+  });
 };
 
-export const queueSongs = song => async (dispatch, getState) => {
-  const state = getState();
-
-  const queue = updateQueue('new', state, song);
-  const convertedQueue = convertForPlayer(queue, state);
+const playQueue = async (queue, dispatch) => {
+  if (!queue.length) {
+    return dispatch(initializeAudio());
+  }
 
   const prevQueue = await TrackPlayer.getQueue();
-
   if (prevQueue.length) {
-    // TrackPlayer.reset();
     TrackPlayer.removeUpcomingTracks();
-    await TrackPlayer.add(convertedQueue);
+    await TrackPlayer.add(queue);
     await TrackPlayer.skipToNext();
+    await TrackPlayer.remove(0);
   } else {
-    await TrackPlayer.add(convertedQueue);
+    await TrackPlayer.add(queue);
   }
+
   // let player get ready to avoid hiccups
   let playerReady;
   while (!playerReady) {
@@ -155,43 +151,31 @@ export const queueSongs = song => async (dispatch, getState) => {
   }
 
   dispatch(playAudio());
-
-  dispatch({
-    type: QUEUE_SONGS,
-    payload: { song: convertedQueue[0], parent: song.parent },
-  });
+  dispatch({ type: SET_CURRENT_SONG, payload: queue[0] });
 };
 
-const getQueueAndPlay = async (action, dispatch, state) => {
-  const newQueue = updateQueue(action, state);
-
-  if (!newQueue.length) {
-    return dispatch(initializeAudio());
-  }
-
-  const convertedQueue = convertForPlayer(newQueue, state);
-
-  TrackPlayer.removeUpcomingTracks();
-  await TrackPlayer.add(convertedQueue);
-  await TrackPlayer.skipToNext();
-  await TrackPlayer.play();
-
-  dispatch({ type: NEXT_SONG, payload: convertedQueue[0] });
+export const queueSongs = (song) => async (dispatch, getState) => {
+  const queue = getQueue(undefined, getState(), song);
+  playQueue(queue, dispatch);
 };
 
 export const nextSong = () => (dispatch, getState) => {
-  getQueueAndPlay('next', dispatch, getState());
+  const queue = getQueue('next', getState());
+  playQueue(queue, dispatch);
 };
 
 export const prevSong = () => (dispatch, getState) => {
-  getQueueAndPlay('prev', dispatch, getState());
+  const queue = getQueue('prev', getState());
+  playQueue(queue, dispatch);
 };
 
-export const changeVolume = value => {
-  return { type: CHANGE_VOLUME, payload: value };
+export const updateQueue = () => async (dispatch, getState) => {
+  const queue = getQueue('next', getState());
+  TrackPlayer.removeUpcomingTracks();
+  await TrackPlayer.add(queue);
 };
 
-export const initializeAudio = () => async dispatch => {
+export const initializeAudio = () => async (dispatch) => {
   const queue = await TrackPlayer.getQueue();
   if (queue.length) {
     TrackPlayer.removeUpcomingTracks();
@@ -200,7 +184,7 @@ export const initializeAudio = () => async dispatch => {
   dispatch({ type: INITIALIZE_AUDIO });
 };
 
-export const syncAudioState = () => async dispatch => {
+export const syncAudioState = () => async (dispatch) => {
   let currentTrack;
   const queue = await TrackPlayer.getQueue();
   const i = await TrackPlayer.getCurrentTrack();

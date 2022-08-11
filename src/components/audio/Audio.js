@@ -44,7 +44,7 @@ const Audio = ({
     syncAudioState();
   }, [song, syncAudioState]);
 
-  useTrackPlayerEvents(events, async event => {
+  useTrackPlayerEvents(events, async (event) => {
     syncAudioState();
     // console.log(event);
 
@@ -57,7 +57,7 @@ const Audio = ({
     }
   });
 
-  const formatTime = useCallback(time => {
+  const formatTime = useCallback((time) => {
     if (time < 0) {
       return '00:00';
     }
@@ -68,12 +68,12 @@ const Audio = ({
     return `${minutes}:${seconds}`;
   }, []);
 
-  const displayDate = date => {
+  const displayDate = (date) => {
     return moment.utc(date).format('MM/DD/yy');
   };
 
   const prev = () => {
-    if (position < 1) {
+    if (position < 3) {
       prevSong();
     } else {
       TrackPlayer.seekTo(0);
@@ -84,7 +84,7 @@ const Audio = ({
     nextSong();
   };
 
-  const onSliderChange = value => {
+  const onSliderChange = (value) => {
     TrackPlayer.seekTo(Math.round(value[0]));
   };
 
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     song: state.audio.currentSong,
     isPlaying: state.audio.play,

@@ -1,12 +1,11 @@
 import {
   PLAY_AUDIO,
   PAUSE_AUDIO,
-  QUEUE_SONGS,
-  NEXT_SONG,
   DELETE_BOUNCE,
   CHANGE_VOLUME,
   INITIALIZE_AUDIO,
   SYNC_AUDIO,
+  SET_CURRENT_SONG,
 } from '../actions/types';
 
 import { State } from 'react-native-track-player';
@@ -24,10 +23,7 @@ const audioReducer = (state = initialState, action) => {
       return { ...state, play: true, show: true };
     case PAUSE_AUDIO:
       return { ...state, play: false };
-    case QUEUE_SONGS:
-      const { song, parent } = action.payload;
-      return { ...state, currentSong: song, play: true, parent };
-    case NEXT_SONG:
+    case SET_CURRENT_SONG:
       return { ...state, currentSong: action.payload };
     case DELETE_BOUNCE:
       if (

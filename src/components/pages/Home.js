@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Pressable,
   ActivityIndicator,
+  SafeAreaView,
 } from 'react-native';
 
 import { fetchBands, fetchBand } from '../../actions';
@@ -24,12 +25,12 @@ class Home extends React.Component {
 
     const bands = Object.values(bandsWithOutCurrentBand);
     if (bands.length) {
-      const onPress = band => {
+      const onPress = (band) => {
         this.props.fetchBand(band);
         this.props.navigation.navigate('Band', { band });
       };
 
-      return bands.map(band => {
+      return bands.map((band) => {
         return (
           <Pressable key={band.id} onPress={() => onPress(band)}>
             <Text style={[baseStyle.h2, styles.bandItem]}>{band.name}</Text>
@@ -41,18 +42,18 @@ class Home extends React.Component {
 
   render() {
     return (
-      <View style={[baseStyle.container, baseStyle.background]}>
+      <SafeAreaView style={[baseStyle.container, baseStyle.background]}>
         <Error />
         <Text style={[baseStyle.h1, styles.homeHeader, baseStyle.headerColor]}>
           Exploring the Space
         </Text>
-        <Text style={baseStyle.h1}>All Bands:</Text>
+        <Text style={baseStyle.h1}>Bands:</Text>
         <View style={[styles.bandList]}>{this.renderBands()}</View>
         <ActivityIndicator
           animating={!Object.values(this.props.bands).length}
           size="large"
         />
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
     fontSize: 35,
   },
   bandList: {
-    margin: 15,
+    marginLeft: 30,
   },
   homeHeader: {
     textAlign: 'center',
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     bands: state.bands,
   };

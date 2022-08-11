@@ -47,17 +47,23 @@ const tiersReducer = (state = {}, action) => {
       };
     case DELETE_TIER:
       const changePosition = Object.values(
-        _.omit(state, state.currentBand),
-      ).filter(t => t.position > action.payload.position);
-      changePosition.forEach(tier => {
+        _.omit(state, state.currentBand)
+      ).filter((t) => t.position > action.payload.position);
+      changePosition.forEach((tier) => {
         tier.position = tier.position - 1;
       });
       delete state[action.payload.id];
       return { ...state, ..._.mapKeys(changePosition, 'id') };
     case ORDER_TIER:
       const tierToOrder = state[action.payload.tier];
-      tierToOrder.orderBy = action.payload.orderBy;
-      return { ...state, [action.payload.tier]: { ...tierToOrder } };
+
+      return {
+        ...state,
+        [action.payload.tier]: {
+          ...tierToOrder,
+          orderBy: action.payload.orderBy,
+        },
+      };
     case CREATE_TITLE:
       const addToTier = state[action.payload.tier];
       addToTier.trackList.push(action.payload.title.id);
@@ -68,7 +74,7 @@ const tiersReducer = (state = {}, action) => {
         newTier.trackList.push(action.payload.title.id);
         const staleTier = state[action.payload.tier.old];
         staleTier.trackList = oldTier.trackList.filter(
-          id => id !== action.payload.title.id,
+          (id) => id !== action.payload.title.id
         );
         return { ...state, [newTier.id]: newTier, [staleTier.id]: staleTier };
       } else {
@@ -78,7 +84,7 @@ const tiersReducer = (state = {}, action) => {
       const deleteFromTier = state[action.payload.tier];
       if (deleteFromTier) {
         const newTrackList = deleteFromTier.trackList.filter(
-          id => id !== action.payload.title.id,
+          (id) => id !== action.payload.title.id
         );
         deleteFromTier.trackList = newTrackList;
         return { ...state, [deleteFromTier.id]: deleteFromTier };

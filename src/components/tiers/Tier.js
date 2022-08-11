@@ -17,12 +17,12 @@ const Tier = ({ tier, titles, fetchTitles, setOrder }) => {
 
   useEffect(() => {
     const trackListTitles = tier.trackList
-      .map(id => titles[id])
-      .filter(title => title);
+      .map((id) => titles[id])
+      .filter((title) => title);
 
     setTitlesToRender(trackListTitles);
 
-    trackListTitles.map(t => {
+    trackListTitles.map((t) => {
       if (t?.selectedBounce?.latest && t.selectedVersion?.current) {
         findLatest(t, t.selectedBounce);
       }
@@ -31,7 +31,7 @@ const Tier = ({ tier, titles, fetchTitles, setOrder }) => {
   }, [titles, tier.trackList]);
 
   const findLatest = (title, bounce) => {
-    setOrderedTitles(state => {
+    setOrderedTitles((state) => {
       if (bounce) {
         return {
           ...state,
@@ -47,7 +47,7 @@ const Tier = ({ tier, titles, fetchTitles, setOrder }) => {
   };
 
   const orderTitles = useCallback(
-    t => {
+    (t) => {
       const titleList = [...t];
 
       if (!tier.orderBy || tier.orderBy === 'date') {
@@ -77,7 +77,7 @@ const Tier = ({ tier, titles, fetchTitles, setOrder }) => {
       }
       return titleList;
     },
-    [orderedTitles, tier.orderBy],
+    [orderedTitles, tier.orderBy]
   );
 
   const renderTitles = () => {
@@ -88,16 +88,16 @@ const Tier = ({ tier, titles, fetchTitles, setOrder }) => {
         renderItem={({ item }) => {
           return <Title title={item} tier={tier} findLatest={findLatest} />;
         }}
-        keyExtractor={title => title.id}
+        keyExtractor={(title) => title.id}
       />
     );
   };
 
   const renderOrderButton = () => {
     let nameButton, dateButton;
-    const getLabel = type => (type === 'date' ? 'Date' : 'ABC');
+    const getLabel = (type) => (type === 'date' ? 'Date' : 'ABC');
 
-    const activeButton = type => {
+    const activeButton = (type) => {
       return (
         <View style={[styles.orderButton, styles.active]}>
           <Text>{getLabel(type)}</Text>
@@ -105,7 +105,7 @@ const Tier = ({ tier, titles, fetchTitles, setOrder }) => {
       );
     };
 
-    const inActiveButton = type => {
+    const inActiveButton = (type) => {
       return (
         <Pressable
           style={styles.orderButton}
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     titles: state.titles,
     band: state.bands.currentBand,

@@ -51,9 +51,7 @@ export const DELETE_RECORDING = 'DELETE_RECORDING';
 
 export const PLAY_AUDIO = 'PLAY_AUDIO';
 export const PAUSE_AUDIO = 'PAUSE_AUDIO';
-export const QUEUE_SONGS = 'QUEUE_SONGS';
-export const NEXT_SONG = 'NEXT_SONG';
-export const CHANGE_VOLUME = 'CHANGE_VOLUME';
+export const SET_CURRENT_SONG = 'SET_CURRENT_SONG';
 export const INITIALIZE_AUDIO = 'INITIALIZE_AUDIO';
 export const ORDER_TIER = 'ORDER_TIER';
 export const SYNC_AUDIO = 'SYNC_AUDIO';

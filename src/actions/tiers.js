@@ -8,6 +8,7 @@ import {
 import { errorHandler } from './errors';
 import greenhouse from '../apis/greenhouse';
 import { deleteTitle } from './titles';
+import { updateQueue } from './audio';
 
 export const fetchTiers = (bandId) => async (dispatch) => {
   try {
@@ -66,6 +67,9 @@ export const deleteTier = (tierId) => async (dispatch, getState) => {
   }
 };
 
-export const setOrder = (tier, orderBy) => {
-  return { type: ORDER_TIER, payload: { tier, orderBy } };
+export const setOrder = (tier, orderBy) => (dispatch, getState) => {
+  dispatch({ type: ORDER_TIER, payload: { tier, orderBy } });
+  if (getState().audio.currentSong) {
+    dispatch(updateQueue());
+  }
 };
