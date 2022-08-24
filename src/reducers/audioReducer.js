@@ -6,6 +6,7 @@ import {
   INITIALIZE_AUDIO,
   SYNC_AUDIO,
   SET_CURRENT_SONG,
+  LOADING,
 } from '../actions/types';
 
 import { State } from 'react-native-track-player';
@@ -19,6 +20,8 @@ const initialState = {
 
 const audioReducer = (state = initialState, action) => {
   switch (action.type) {
+    case LOADING:
+      return { ...state, play: true };
     case PLAY_AUDIO:
       return { ...state, play: true, show: true };
     case PAUSE_AUDIO:

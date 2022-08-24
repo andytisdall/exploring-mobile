@@ -55,6 +55,7 @@ export const SET_CURRENT_SONG = 'SET_CURRENT_SONG';
 export const INITIALIZE_AUDIO = 'INITIALIZE_AUDIO';
 export const ORDER_TIER = 'ORDER_TIER';
 export const SYNC_AUDIO = 'SYNC_AUDIO';
+export const LOADING = 'LOADING';
 
 export const SELECT_VERSION = 'SELECT_VERSION';
 export const SELECT_BOUNCE = 'SELECT_BOUNCE';

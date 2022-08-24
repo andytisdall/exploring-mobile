@@ -38,7 +38,7 @@ const BodyContainer = ({
     () => () => {
       initializeAudio();
     },
-    [initializeAudio],
+    [initializeAudio]
   );
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const BodyContainer = ({
     if (band) {
       setTierList(
         band.tiers
-          .map(id => tiers[id])
+          .map((id) => tiers[id])
           .sort((a, b) => {
             if (a.position < b.position) {
               return -1;
@@ -67,7 +67,7 @@ const BodyContainer = ({
               return 1;
             }
             return -1;
-          }),
+          })
       );
     }
   }, [tiers, setTierList, band]);
@@ -76,7 +76,7 @@ const BodyContainer = ({
     if (band) {
       setPlaylistList(
         band.playlists
-          .map(id => playlists[id])
+          .map((id) => playlists[id])
           .sort((a, b) => {
             if (a.position < b.position) {
               return -1;
@@ -85,7 +85,7 @@ const BodyContainer = ({
               return 1;
             }
             return -1;
-          }),
+          })
       );
     }
   }, [playlists, band]);
@@ -94,23 +94,23 @@ const BodyContainer = ({
     if (band.tiers.length && !tierList[0]) {
       return <ActivityIndicator size="large" style={styles.spinner} />;
     }
-    const tiersToRender = tierList.filter(tier => tier);
+    const tiersToRender = tierList.filter((tier) => tier);
     return (
       <FlatList
         data={tiersToRender}
         renderItem={({ item }) => <Tier tier={item} />}
-        keyExtractor={tier => tier.id}
+        keyExtractor={(tier) => tier.id}
       />
     );
   };
 
   const renderPlaylists = () => {
-    const playlistsToRender = playlistList.filter(pl => pl);
+    const playlistsToRender = playlistList.filter((pl) => pl);
     return (
       <FlatList
         data={playlistsToRender}
         renderItem={({ item }) => <Playlist playlist={item} />}
-        keyExtractor={pl => pl.id}
+        keyExtractor={(pl) => pl.id}
       />
     );
   };
@@ -134,7 +134,7 @@ const BodyContainer = ({
           <FlatList
             data={sections}
             renderItem={renderSection}
-            keyExtractor={section => section.name}
+            keyExtractor={(section) => section.name}
             contentContainerStyle={styles.listStyle}
           />
           <Audio />
@@ -149,16 +149,11 @@ const BodyContainer = ({
   ];
 
   return (
-    <SafeAreaView style={[styles.main, baseStyle.background]}>
-      {showContent()}
-    </SafeAreaView>
+    <SafeAreaView style={baseStyle.container}>{showContent()}</SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  main: {
-    height: '100%',
-  },
   sectionHeader: {
     marginTop: 20,
     borderBottomColor: 'rgb(72, 145, 255)',
@@ -181,7 +176,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     tiers: state.tiers,
     playlists: state.playlists,

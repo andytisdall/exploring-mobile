@@ -9,6 +9,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 
+import QuestionMark from '../../assets/images/question-mark.svg';
 import { fetchBands, fetchBand } from '../../actions';
 import baseStyle from '../../style/baseStyle';
 import Error from '../layout/Error';
@@ -42,7 +43,7 @@ class Home extends React.Component {
 
   render() {
     return (
-      <SafeAreaView style={[baseStyle.container, baseStyle.background]}>
+      <SafeAreaView style={[baseStyle.container]}>
         <Error />
         <Text style={[baseStyle.h1, styles.homeHeader, baseStyle.headerColor]}>
           Exploring the Space
@@ -53,6 +54,12 @@ class Home extends React.Component {
           animating={!Object.values(this.props.bands).length}
           size="large"
         />
+        <Pressable
+          onPress={() => this.props.navigation.navigate('Help')}
+          style={styles.helpButton}
+        >
+          <QuestionMark style={[styles.questionMark]} />
+        </Pressable>
       </SafeAreaView>
     );
   }
@@ -72,6 +79,16 @@ const styles = StyleSheet.create({
     fontSize: 70,
     paddingTop: 100,
     marginBottom: 30,
+  },
+  helpButton: {
+    position: 'absolute',
+    bottom: 100,
+    alignSelf: 'center',
+  },
+  questionMark: {
+    fill: 'white',
+    height: 40,
+    width: 40,
   },
 });
 

@@ -2072,23 +2072,6 @@
                     }
                 },
                 {
-                    "source": "/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/res/values/strings.xml",
-                    "from": {
-                        "startLines": "1",
-                        "startColumns": "4",
-                        "startOffsets": "16",
-                        "endColumns": "43",
-                        "endOffsets": "55"
-                    },
-                    "to": {
-                        "startLines": "913",
-                        "startColumns": "4",
-                        "startOffsets": "56805",
-                        "endColumns": "43",
-                        "endOffsets": "56844"
-                    }
-                },
-                {
                     "source": "/Users/andrewtisdall/.gradle/caches/transforms-3/8abe6da7aa23dc815136579672f2d84c/transformed/lifecycle-viewmodel-2.3.1/res/values/values.xml",
                     "from": {
                         "startLines": "2",
@@ -2199,6 +2182,23 @@
                     }
                 },
                 {
+                    "source": "/Users/andrewtisdall/projects/exploring-mobile/android/app/build/generated/res/resValues/debug/values/gradleResValues.xml",
+                    "from": {
+                        "startLines": "6,8",
+                        "startColumns": "4,4",
+                        "startOffsets": "156,262",
+                        "endColumns": "63,68",
+                        "endOffsets": "215,326"
+                    },
+                    "to": {
+                        "startLines": "868,869",
+                        "startColumns": "4,4",
+                        "startOffsets": "53636,53700",
+                        "endColumns": "63,68",
+                        "endOffsets": "53695,53764"
+                    }
+                },
+                {
                     "source": "/Users/andrewtisdall/.gradle/caches/transforms-3/5038300d5a68a71fb6a7efb996e5b23a/transformed/jetified-exoplayer-core-r2.17.2/res/values/values.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10",
@@ -2213,23 +2213,6 @@
                         "startOffsets": "63336,63406,63468,63533,63597,63674,63739,63829,63913",
                         "endColumns": "69,61,64,63,76,64,89,83,68",
                         "endOffsets": "63401,63463,63528,63592,63669,63734,63824,63908,63977"
-                    }
-                },
-                {
-                    "source": "/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/build/generated/res/resValues/debug/values/gradleResValues.xml",
-                    "from": {
-                        "startLines": "6,8",
-                        "startColumns": "4,4",
-                        "startOffsets": "156,262",
-                        "endColumns": "63,68",
-                        "endOffsets": "215,326"
-                    },
-                    "to": {
-                        "startLines": "868,869",
-                        "startColumns": "4,4",
-                        "startOffsets": "53636,53700",
-                        "endColumns": "63,68",
-                        "endOffsets": "53695,53764"
                     }
                 },
                 {
@@ -2341,6 +2324,25 @@
                     }
                 },
                 {
+                    "source": "/Users/andrewtisdall/projects/exploring-mobile/android/app/src/main/res/values/styles.xml",
+                    "from": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "54",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "267"
+                    },
+                    "to": {
+                        "startLines": "1102",
+                        "startColumns": "4",
+                        "startOffsets": "76815",
+                        "endLines": "1105",
+                        "endColumns": "12",
+                        "endOffsets": "76993"
+                    }
+                },
+                {
                     "source": "/Users/andrewtisdall/.gradle/caches/transforms-3/40f191bf62c9ce5a0fadd0c1451130c8/transformed/jetified-viewpager2-1.0.0/res/values/values.xml",
                     "from": {
                         "startLines": "2",
@@ -2396,6 +2398,23 @@
                     }
                 },
                 {
+                    "source": "/Users/andrewtisdall/projects/exploring-mobile/android/app/src/main/res/values/strings.xml",
+                    "from": {
+                        "startLines": "1",
+                        "startColumns": "4",
+                        "startOffsets": "16",
+                        "endColumns": "43",
+                        "endOffsets": "55"
+                    },
+                    "to": {
+                        "startLines": "913",
+                        "startColumns": "4",
+                        "startOffsets": "56805",
+                        "endColumns": "43",
+                        "endOffsets": "56844"
+                    }
+                },
+                {
                     "source": "/Users/andrewtisdall/.gradle/caches/transforms-3/8d9f648184019c9084436d6e6b4f2561/transformed/jetified-extension-mediasession-r2.17.2/res/values/values.xml",
                     "from": {
                         "startLines": "2,3,4",
@@ -2429,25 +2448,6 @@
                         "endLines": "5011,5017,5027,7165,7169",
                         "endColumns": "24,24,24,24,24",
                         "endOffsets": "324902,325080,325364,397340,397467"
-                    }
-                },
-                {
-                    "source": "/Users/andrewtisdall/projects/exploring-mobile/etsmob/android/app/src/main/res/values/styles.xml",
-                    "from": {
-                        "startLines": "3",
-                        "startColumns": "4",
-                        "startOffsets": "54",
-                        "endLines": "6",
-                        "endColumns": "12",
-                        "endOffsets": "267"
-                    },
-                    "to": {
-                        "startLines": "1102",
-                        "startColumns": "4",
-                        "startOffsets": "76815",
-                        "endLines": "1105",
-                        "endColumns": "12",
-                        "endOffsets": "76993"
                     }
                 }
             ]

@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  ActivityIndicator,
+} from 'react-native';
 import TrackPlayer, {
   useTrackPlayerEvents,
   useProgress,
@@ -33,12 +39,18 @@ const Audio = ({
   isPlaying,
   playAudio,
   pauseAudio,
+  initializeAudio,
   show,
 }) => {
   const { position, duration } = useProgress();
   const [playerState, setPlayerState] = useState(State.Paused);
 
-  const events = [Event.PlaybackError, Event.PlaybackState];
+  const events = [
+    Event.PlaybackError,
+    Event.PlaybackState,
+    Event.PlaybackTrackChanged,
+    Event.PlaybackQueueEnded,
+  ];
 
   useEffect(() => {
     syncAudioState();
@@ -46,7 +58,6 @@ const Audio = ({
 
   useTrackPlayerEvents(events, async (event) => {
     syncAudioState();
-    // console.log(event);
 
     if (event.type === Event.PlaybackError) {
       throwError('audio player had an error');
@@ -54,6 +65,9 @@ const Audio = ({
     }
     if (event.type === Event.PlaybackState) {
       setPlayerState(event.state);
+    }
+    if (event.type === Event.PlaybackQueueEnded) {
+      initializeAudio();
     }
   });
 
@@ -167,6 +181,12 @@ const Audio = ({
         {showPlayerState()}
       </View>
     );
+  } else if (isPlaying) {
+    return (
+      <View style={[styles.playbar]}>
+        <ActivityIndicator size="large" style={styles.spinner} />
+      </View>
+    );
   } else {
     return null;
   }
@@ -250,6 +270,9 @@ const styles = StyleSheet.create({
   playerState: {
     color: 'white',
     alignSelf: 'center',
+  },
+  spinner: {
+    padding: 50,
   },
 });
 

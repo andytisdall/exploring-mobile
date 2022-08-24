@@ -61,10 +61,10 @@ const ParentDetail = ({ item, childList, showChildren, options }) => {
             LayoutAnimation.create(
               200,
               LayoutAnimation.Types.linear,
-              LayoutAnimation.Properties.scaleXY,
-            ),
+              LayoutAnimation.Properties.scaleXY
+            )
           );
-          setExpand(state => !state);
+          setExpand((state) => !state);
         }}
       >
         <View style={[styles.tierName]}>
@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
   tierCount: {
     width: '30%',
     flexDirection: 'row',
+    alignItems: 'center',
   },
   countItem: {
     width: '50%',
@@ -102,6 +103,7 @@ const styles = StyleSheet.create({
     width: '55%',
     flexDirection: 'row',
     marginRight: 30,
+    alignItems: 'center',
   },
   tierTitle: {
     marginLeft: 5,

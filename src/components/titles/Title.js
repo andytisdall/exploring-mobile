@@ -152,7 +152,7 @@ const Title = ({
           colors={colors}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          style={[baseStyle.marqee, styles.title]}
+          style={[baseStyle.marqee]}
         >
           <View style={styles.titleName}>
             <Arrow style={arrow} />
@@ -176,9 +176,6 @@ export const styles = StyleSheet.create({
   topBorder: {
     borderTopColor: 'rgb(20, 29, 11)',
     borderTopWidth: 1,
-  },
-  title: {
-    flexDirection: 'row',
   },
   titleName: {
     marginLeft: 4,

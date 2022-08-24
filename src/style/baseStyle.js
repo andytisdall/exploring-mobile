@@ -7,6 +7,7 @@ export default StyleSheet.create({
   container: {
     paddingHorizontal: 8,
     flex: 1,
+    backgroundColor: 'rgb(56, 56, 56)',
   },
   headerColor: {
     color: '#65d478',
@@ -39,7 +40,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   tier: {
-    padding: 1,
+    padding: 3,
     borderBottomColor: 'rgb(72, 145, 255)',
     borderBottomWidth: 1,
   },

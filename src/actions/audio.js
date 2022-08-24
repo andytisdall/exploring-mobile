@@ -6,6 +6,7 @@ import {
   INITIALIZE_AUDIO,
   SYNC_AUDIO,
   SET_CURRENT_SONG,
+  LOADING,
 } from './types';
 
 export const playAudio = () => async (dispatch) => {
@@ -58,10 +59,12 @@ const getQueue = (action, state, currentSong = null) => {
   const { parent } = currentSong;
 
   let songArray = [];
+  let updatedParent;
 
   // parent is tier
   if (parent.trackList) {
-    const allTitles = orderTitles(parent.id, state);
+    updatedParent = state.tiers[parent.id];
+    const allTitles = orderTitles(updatedParent.id, state);
 
     const currentIndex = allTitles.findIndex(
       (title) =>
@@ -90,7 +93,8 @@ const getQueue = (action, state, currentSong = null) => {
 
   // parent is playlist
   if (parent.songs) {
-    const allSongs = parent.songs
+    updatedParent = state.playlists[parent.id];
+    const allSongs = updatedParent.songs
       .map((id) => state.playlistSongs[id])
       .filter((song) => song.bounce)
       .sort((a, b) => (a.position < b.position ? -1 : 1));
@@ -123,7 +127,7 @@ const getQueue = (action, state, currentSong = null) => {
       url: `https://exploring-the-space.com/api/audio/${song.audio}`,
       artist,
       id: song.audio,
-      parent,
+      parent: updatedParent,
     };
   });
 };
@@ -132,6 +136,8 @@ const playQueue = async (queue, dispatch) => {
   if (!queue.length) {
     return dispatch(initializeAudio());
   }
+
+  dispatch({ type: LOADING });
 
   const prevQueue = await TrackPlayer.getQueue();
   if (prevQueue.length) {
