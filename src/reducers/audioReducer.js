@@ -16,14 +16,15 @@ const initialState = {
   volume: 75,
   currentSong: null,
   show: false,
+  loading: false,
 };
 
 const audioReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOADING:
-      return { ...state, play: true };
+      return { ...state, loading: true };
     case PLAY_AUDIO:
-      return { ...state, play: true, show: true };
+      return { ...state, play: true, show: true, loading: false };
     case PAUSE_AUDIO:
       return { ...state, play: false };
     case SET_CURRENT_SONG:

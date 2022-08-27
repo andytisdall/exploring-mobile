@@ -41,6 +41,7 @@ const Audio = ({
   pauseAudio,
   initializeAudio,
   show,
+  loading,
 }) => {
   const { position, duration } = useProgress();
   const [playerState, setPlayerState] = useState(State.Paused);
@@ -110,18 +111,16 @@ const Audio = ({
     }
   };
 
-  const showPlayerState = () => {
-    const statesToShow = [State.Buffering];
-    if (statesToShow.includes(playerState)) {
-      return <Text style={styles.playerState}>{State[playerState]}</Text>;
+  const playButton = () => {
+    const loadingStates = [State.Buffering, State.Connecting];
+    if (loadingStates.includes(playerState)) {
+      return <ActivityIndicator style={styles.smallSpinner} size="large" />;
+    } else if (!isPlaying) {
+      return <PlayButton style={styles.bigButton} />;
+    } else {
+      return <PauseButton style={styles.bigButton} />;
     }
   };
-
-  const playButton = !isPlaying ? (
-    <PlayButton style={styles.bigButton} />
-  ) : (
-    <PauseButton style={styles.bigButton} />
-  );
 
   if (song && show) {
     return (
@@ -143,7 +142,7 @@ const Audio = ({
               <Pressable onPress={prev}>
                 <PrevButton style={styles.smallButton} />
               </Pressable>
-              <Pressable onPress={onPauseButton}>{playButton}</Pressable>
+              <Pressable onPress={onPauseButton}>{playButton()}</Pressable>
               <Pressable onPress={next}>
                 <NextButton style={styles.smallButton} />
               </Pressable>
@@ -178,13 +177,12 @@ const Audio = ({
             {formatTime(duration)}
           </Text>
         </View>
-        {showPlayerState()}
       </View>
     );
-  } else if (isPlaying) {
+  } else if (loading) {
     return (
       <View style={[styles.playbar]}>
-        <ActivityIndicator size="large" style={styles.spinner} />
+        <ActivityIndicator size="large" style={styles.bigSpinner} />
       </View>
     );
   } else {
@@ -271,8 +269,13 @@ const styles = StyleSheet.create({
     color: 'white',
     alignSelf: 'center',
   },
-  spinner: {
+  bigSpinner: {
     padding: 50,
+  },
+  smallSpinner: {
+    height: 55,
+    width: 55,
+    marginHorizontal: 20,
   },
 });
 
@@ -281,6 +284,7 @@ const mapStateToProps = (state) => {
     song: state.audio.currentSong,
     isPlaying: state.audio.play,
     show: state.audio.show,
+    loading: state.audio.loading,
   };
 };
 

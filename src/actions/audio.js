@@ -137,8 +137,6 @@ const playQueue = async (queue, dispatch) => {
     return dispatch(initializeAudio());
   }
 
-  dispatch({ type: LOADING });
-
   const prevQueue = await TrackPlayer.getQueue();
   if (prevQueue.length) {
     TrackPlayer.removeUpcomingTracks();
@@ -161,6 +159,7 @@ const playQueue = async (queue, dispatch) => {
 };
 
 export const queueSongs = (song) => async (dispatch, getState) => {
+  dispatch({ type: LOADING });
   const queue = getQueue(undefined, getState(), song);
   playQueue(queue, dispatch);
 };

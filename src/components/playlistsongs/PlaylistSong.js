@@ -70,7 +70,7 @@ const PlaylistSong = ({
           end={{ x: 1, y: 0 }}
           style={[baseStyle.marqee, styles.title]}
         >
-          <View style={styles.titleName}>
+          <View style={styles.playlistSongName}>
             <View style={styles.songPositionContainer}>
               <Text style={styles.songPosition}>{song.position}</Text>
             </View>

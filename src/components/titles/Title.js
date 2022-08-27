@@ -184,6 +184,13 @@ export const styles = StyleSheet.create({
     width: '40%',
     paddingRight: 15,
   },
+  playlistSongName: {
+    marginLeft: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '35%',
+    marginRight: 30,
+  },
   arrowRotated: {
     transform: [{ rotate: '90deg' }],
   },
