@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   playbarInfoDetailData: {
-    fontSize: 15,
+    fontSize: 13,
     color: 'yellow',
   },
   playsliderContainer: {
@@ -252,13 +252,13 @@ const styles = StyleSheet.create({
   },
   playsliderTime: {
     fontSize: 15,
-    marginLeft: 10,
+    marginLeft: 13,
     fontFamily: 'Fira Sans',
-    width: '8%',
+    width: '12%',
   },
   slider: {
     height: 40,
-    width: '75%',
+    width: '65%',
   },
   thumb: {
     width: 7,
